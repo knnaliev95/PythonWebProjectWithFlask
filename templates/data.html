@@ -7,11 +7,11 @@
     <title>Login</title>
 </head>
 <body>
-    <h1>Melumatlarini elde etmek istediyiniz istifadeci adini daxil edin</h1>
-    <form action="/showdata" method="POST">
-        <input type="text" placeholder="Username" name="u_name">
-        <input type="submit" value="Show">
-    </form>
-    <p>{{data}}</p>
+    <h1>Istifadeci melumatlari</h1>
+    {% for i in rows %}
+    <span>{{i["id"]}}</span>
+    <span>{{i["u_name"]}}</span>
+    <span>{{i["u_password"]}}</span><br>
+    {% endfor %}
 </body>
 </html>

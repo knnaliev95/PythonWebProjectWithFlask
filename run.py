@@ -1,5 +1,5 @@
+from flask import Flask, redirect,render_template,request
 import sqlite3
-from flask import Flask, redirect,render_template, request
 app=Flask(__name__)
 @app.route("/register", methods=["GET","POST"])
 def register():
@@ -14,11 +14,16 @@ def register():
 
 
 @app.route("/showdata", methods=["GET","POST"])
-def login():
-    if request.method=="POST":
-        pass
+def showdata():
+    conn=sqlite3.connect("users.db")
+    conn.row_factory=sqlite3.Row
+    cursor=conn.cursor()
+    cursor.execute("select * from user")
+    rows=cursor.fetchall()
+    for i in rows:
+        print(i["id"],i["u_name"],i["u_password"])
 
-    return render_template("data.html")
+    return render_template("data.html",rows=rows)
 
 
 @app.route("/delete", methods=["GET","POST"])
