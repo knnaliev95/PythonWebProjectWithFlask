@@ -1,4 +1,4 @@
-from flask import Flask,render_template, request
+from flask import Flask, redirect,render_template, request
 from flask_sqlalchemy import SQLAlchemy
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
@@ -19,7 +19,35 @@ def index():
         msj=Messages(name=name,email=email,Subject=subject,message=message)
         db.session.add(msj)
         db.session.commit()
+        return redirect("/messages")
     return render_template("index.html")
+
+@app.route("/messages", methods=['GET','POST'])
+def messages():
+    msj=Messages.query.all()
+    return render_template("messages.html",messages=msj)
+
+@app.route("/delete/<id>", methods=['GET','POST'])
+def delete(id):
+    msj=Messages.query.get(id)
+    db.session.delete(msj)
+    db.session.commit()
+    return redirect("/messages")
+
+@app.route("/update/<id>", methods=['GET','POST'])
+def update(id):
+    msj=Messages.query.get(id)
+    if request.method=='POST':
+        name=request.form['name']
+        email=request.form['email']
+        subject=request.form['subject']
+        message=request.form['message']
+        msj.update(dict(name=name,email=email,subject=subject,message=message))
+    db.session.commit()
+
+    return render_template("update.html")
+
+
 
 if __name__=="__main__":
     app.run(port=5000,debug=True)
