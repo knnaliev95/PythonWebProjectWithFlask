@@ -42,8 +42,11 @@ def update(id):
         email=request.form['email']
         subject=request.form['subject']
         message=request.form['message']
-        msj.update(dict(name=name,email=email,subject=subject,message=message))
-    db.session.commit()
+        msj.name=name
+        msj.emal=email
+        msj.subject=subject
+        msj.message=message
+        db.session.commit()
 
     return render_template("update.html")
 
