@@ -7,13 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/update" method="GET, POST">
-        <input type="text" name="name" placeholder="Your Name"><br>
-        <input type="text" name="email" placeholder="Your Email"><br>
-        <input type="text" name="subject" placeholder="Subject"><br>
-        <input type="text" name="message" placeholder="Message"><br>
-        <input type="submit" value="submit">
-        
+    <form action="/update/{{mesage.id}}" method="POST">
+        <input type="text" name="name" value="{{mesage.name}}"><br>
+        <input type="text" name="email"  value="{{mesage.email}}"><br>
+        <input type="text" name="message" value="{{mesage.message}}"><br>
+        <input type="submit" value="submit"> 
     </form>
 </body>
 </html>

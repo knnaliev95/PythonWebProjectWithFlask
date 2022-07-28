@@ -40,15 +40,13 @@ def update(id):
     if request.method=='POST':
         name=request.form['name']
         email=request.form['email']
-        subject=request.form['subject']
         message=request.form['message']
         msj.name=name
         msj.emal=email
-        msj.subject=subject
         msj.message=message
         db.session.commit()
 
-    return render_template("update.html")
+    return render_template("update.html", mesage=msj)
 
 
 
