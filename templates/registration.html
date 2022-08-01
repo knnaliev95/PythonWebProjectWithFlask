@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/assets/css/register.css">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/registration" method="POST">
+        <section class="registration-box">
+            <h1>Qeydiyyat</h1>
+            <div class="input-box">
+                <input type="text" required="required" name="name">
+                <span>Name</span>
+            </div>
+            <div class="input-box">
+                <input type="email" required="required" name="email">
+                <span>Email</span>
+            </div>
+            <div class="input-box">
+                <input type="password" required="required" name="password">
+                <span>Password</span>
+            </div>
+            <button type="submit">Register</button>
+        </section>
+    </form>
+</body>
+</html>

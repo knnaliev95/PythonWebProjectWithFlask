@@ -13,6 +13,12 @@ class Messages(db.Model):
     Subject = db.Column(db.String(20), nullable=False)
     message = db.Column(db.String(200), nullable=False)
     m_date = db.Column(db.String(50), nullable=False)
+class Users(db.Model):
+    id=db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name=db.Column(db.String(25), nullable=False)
+    email=db.Column(db.String(50), nullable=False)
+    password=db.Column(db.String(50), nullable=False)
+    login_status=db.Column(db.Boolean)
 @app.route("/", methods=['GET','POST'])
 def index():
     if request.method=='POST':
@@ -52,7 +58,32 @@ def update(id):
 
     return render_template("update.html", mesage=msj)
 
+@app.route("/registration", methods=['GET','POST'])
+def registration():
+    if request.method=='POST':
+        name=request.form['name']
+        email=request.form['email']
+        password=request.form['password']
+        user=Users(name=name,email=email,password=password,login_status=False)
+        db.session.add(user)
+        db.session.commit()
+        return redirect('/login')
+    return render_template("registration.html")
 
+@app.route("/login", methods=['GET','POST'])
+def login():
+    if request.method=="POST":
+        email=request.form['email']
+        password=request.form['password']
+        user=Users.query.all()
+        for i in user:
+            if email==i.email and password==i.password:
+                i.login_status=True
+                db.session.commit()
+                return redirect('/')
+            else:
+                return redirect('/login')
+    return render_template("login.html")
 
 if __name__=="__main__":
     app.run(port=5000,debug=True)
