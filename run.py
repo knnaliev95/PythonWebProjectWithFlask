@@ -34,8 +34,14 @@ def index():
 
 @app.route("/messages", methods=['GET','POST'])
 def messages():
-    msj=Messages.query.all()
-    return render_template("messages.html",messages=msj)
+    user=Users.query.all()
+    for i in user:
+        if i.login_status==True:
+            userid=i.id
+            msj=Messages.query.all()
+        else:
+            return redirect('/login')
+    return render_template("messages.html",messages=msj,id=userid)
 
 @app.route("/delete/<id>", methods=['GET','POST'])
 def delete(id):
@@ -79,10 +85,17 @@ def login():
             if email==i.email and password==i.password:
                 i.login_status=True
                 db.session.commit()
-                return redirect('/')
+                return redirect('/messages')
             else:
                 return redirect('/login')
     return render_template("login.html")
+
+@app.route("/logout/<id>", methods=['GET','POST'])
+def logout(id):
+    user=Users.query.get(id)
+    user.login_status=False
+    db.session.commit()
+    return redirect('/login')
 
 if __name__=="__main__":
     app.run(port=5000,debug=True)
