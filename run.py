@@ -52,10 +52,9 @@ def update(id):
         email=request.form['email']
         message=request.form['message']
         msj.name=name
-        msj.emal=email
+        msj.email=email
         msj.message=message
         db.session.commit()
-
     return render_template("update.html", mesage=msj)
 
 @app.route("/registration", methods=['GET','POST'])
