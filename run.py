@@ -1,14 +1,18 @@
 from flask import Flask, redirect,render_template, request
 from flask_sqlalchemy import SQLAlchemy
+import datetime
+from flask_migrate import Migrate
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
 db=SQLAlchemy(app)
+migrate = Migrate(app, db)
 class Messages(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(30), nullable=False)
     email = db.Column(db.String(30), nullable=False)
     Subject = db.Column(db.String(20), nullable=False)
     message = db.Column(db.String(200), nullable=False)
+    m_date = db.Column(db.String(50), nullable=False)
 @app.route("/", methods=['GET','POST'])
 def index():
     if request.method=='POST':
@@ -16,7 +20,7 @@ def index():
         email=request.form["m_email"]
         subject=request.form["m_subject"]
         message=request.form["m_message"]
-        msj=Messages(name=name,email=email,Subject=subject,message=message)
+        msj=Messages(name=name,email=email,Subject=subject,message=message,m_date=str(datetime.datetime.now()))
         db.session.add(msj)
         db.session.commit()
         return redirect("/messages")
