@@ -6,5 +6,6 @@ from admin.forms import MessageForm
 def peoples_index():
     messageForm=MessageForm()
     from run import db
-    from models import Messages
-    return render_template('peoples/index.html', messageForm=messageForm)
+    from models import Messages, NavLinks
+    navlinks=NavLinks.query.all()
+    return render_template('peoples/index.html', messageForm=messageForm, navlinks=navlinks)

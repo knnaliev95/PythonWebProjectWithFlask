@@ -67,6 +67,7 @@ def navlinks_delete(id):
 @admin_bp.route('/navlinks/edit/<id>', methods=['GET','POST'])
 def navlinks_edit(id):
     from run import db
+    from models import NavLinks
     navlinksform=NavLinksForm()
     navlink=NavLinks.query.get(id)
     if request.method=='POST':
