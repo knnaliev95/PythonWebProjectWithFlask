@@ -1,8 +1,7 @@
-from dataclasses import dataclass
 from flask import render_template,redirect,request
 from admin import admin_bp
-from models import Messages
-from admin.forms import MessageForm
+from models import Messages, NavLinks
+from admin.forms import MessageForm, NavLinksForm
 
 @admin_bp.route('/', methods=['GET','POST'])
 def index():
@@ -35,3 +34,46 @@ def message_delete(id):
     db.session.delete(message)
     db.session.commit()
     return redirect('/admin/messages')
+
+@admin_bp.route('/navlinks', methods=['GET','POST'])
+def navlinks():
+    navlinks=NavLinksForm()
+    navigationlink=NavLinks.query.all()
+    return render_template('admin/navlinks.html', navlinks=navlinks, navigationlink=navigationlink)
+
+@admin_bp.route('/navlinks/add', methods=['GET','POST'])
+def navlinks_add():
+    from run import db
+    navlinkForm=NavLinksForm()
+    if request.method=='POST':
+        navlink=NavLinks(
+            Name=navlinkForm.name.data,
+            Url=navlinkForm.url.data,
+            Order=navlinkForm.order.data,
+            IsActive=navlinkForm.isactive.data
+        )
+        db.session.add(navlink)
+        db.session.commit()
+        return redirect('/admin/navlinks')
+
+@admin_bp.route('navlinks/delete/<id>',methods=['GET','POST'])
+def navlinks_delete(id):
+    from run import db
+    link=NavLinks.query.get(id)
+    db.session.delete(link)
+    db.session.commit()
+    return redirect('/admin/navlinks')
+
+@admin_bp.route('/navlinks/edit/<id>', methods=['GET','POST'])
+def navlinks_edit(id):
+    from run import db
+    navlinksform=NavLinksForm()
+    navlink=NavLinks.query.get(id)
+    if request.method=='POST':
+        navlink.Name=navlinksform.name.data
+        navlink.Url=navlinksform.url.data
+        navlink.Order=navlinksform.order.data
+        navlink.IsActive=navlinksform.isactive.data
+        db.session.commit()
+        return redirect('/admin/navlinks')
+    return render_template('admin/navlinks_edit.html', navlink=navlink, navlinksform=navlinksform)
