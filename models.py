@@ -1,4 +1,3 @@
-import imp
 from run import db
 
 class Messages(db.Model):

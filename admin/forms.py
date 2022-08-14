@@ -1,2 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,EmailField,DateTimeField,SubmitField
+from wtforms import StringField,EmailField,TextAreaField,SubmitField
+
+class MessageForm(FlaskForm):
+    name=StringField('name')
+    email=EmailField('email')
+    subject=StringField('subject')
+    message=TextAreaField('message')
+    submit=SubmitField('Send Message')

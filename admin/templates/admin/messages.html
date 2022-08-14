@@ -1,4 +1,27 @@
 {% extends 'admin/layout.html' %}
 {% block body %}
-    
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Subject</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for message in messages %}
+      <tr>
+        <td>{{message.Id}}</td>
+        <td>{{message.Name}}</td>
+        <td>{{message.Subject}}</td>
+        <td>
+            <a href="/admin/message/delete/{{message.Id}}" class="btn btn-danger">Delete</a>
+            <a href="/admin/message/edit/{{message.Id}}" class="btn btn-primary">Edit</a>
+            <a href="/admin/message/detail/{{message.Id}}" class="btn btn-primary">Detail</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}}
