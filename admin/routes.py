@@ -1,7 +1,12 @@
+from distutils import extension
+from email.mime import image
 from flask import render_template,redirect,request
 from admin import admin_bp
-from models import Messages, NavLinks
-from admin.forms import MessageForm, NavLinksForm
+from models import Messages, NavLinks, Teams
+from admin.forms import MessageForm, NavLinksForm, TeamsForm
+import os
+import random
+from werkzeug.utils import secure_filename
 
 @admin_bp.route('/', methods=['GET','POST'])
 def index():
@@ -66,15 +71,43 @@ def navlinks_delete(id):
 
 @admin_bp.route('/navlinks/edit/<id>', methods=['GET','POST'])
 def navlinks_edit(id):
+    return render_template('admin/navlinkedit.html')
+
+@admin_bp.route('/teams', methods=['GET','POST'])
+def teams():
+    teamsform=TeamsForm()
+    teams=Teams.query.all()
+    return render_template('admin/teams.html', teamsform=teamsform, teams=teams)
+
+@admin_bp.route('/teams/add', methods=['GET','POST'])
+def teams_add():
     from run import db
-    from models import NavLinks
-    navlinksform=NavLinksForm()
-    navlink=NavLinks.query.get(id)
+    teamsform=TeamsForm()
     if request.method=='POST':
-        navlink.Name=navlinksform.name.data
-        navlink.Url=navlinksform.url.data
-        navlink.Order=navlinksform.order.data
-        navlink.IsActive=navlinksform.isactive.data
+        file=request.files['image']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Teams{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./admin/static/uploads/', new_filename))
+        team=Teams(
+            Name=teamsform.name.data,
+            Profession=teamsform.profession.data,
+            Image=new_filename,
+            TwitterAdress=teamsform.twitter.data,
+            FacebookAdress=teamsform.facebook.data,
+            InstagramAdress=teamsform.instagram.data,
+            LinkedinAdress=teamsform.linkedin.data,
+            Order=teamsform.order.data,
+            IsActive=teamsform.isactive.data
+        )
+        db.session.add(team)
         db.session.commit()
-        return redirect('/admin/navlinks')
-    return render_template('admin/navlinks_edit.html', navlink=navlink, navlinksform=navlinksform)
+        return redirect('/admin/teams')
+
+@admin_bp.route('/teams/delete/<id>')
+def teams_delete(id):
+    from run import db
+    team=Teams.query.get(id)
+    db.session.delete(team)
+    db.session.commit()
+    return redirect('/admin/teams')

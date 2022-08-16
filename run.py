@@ -5,6 +5,7 @@ app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
 db=SQLAlchemy(app)
 app.config['SECRET_KEY']='secretkey'
+migrate=Migrate(app,db)
 from admin.routes import *
 from peoples.routes import *
 

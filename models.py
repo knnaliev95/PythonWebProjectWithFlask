@@ -13,3 +13,15 @@ class NavLinks(db.Model):
     Url=db.Column(db.String(50), nullable=False)
     Order=db.Column(db.Integer, nullable=False)
     IsActive=db.Column(db.Boolean, nullable=False)
+
+class Teams(db.Model):
+    Id=db.Column(db.Integer, primary_key=True, autoincrement=True)
+    Name=db.Column(db.String(50))
+    Profession=db.Column(db.String(50))
+    Image=db.Column(db.String(100))
+    TwitterAdress=db.Column(db.String(50))
+    FacebookAdress=db.Column(db.String(50))
+    InstagramAdress=db.Column(db.String(50))
+    LinkedinAdress=db.Column(db.String(50))
+    Order=db.Column(db.Integer)
+    IsActive=db.Column(db.Boolean)
