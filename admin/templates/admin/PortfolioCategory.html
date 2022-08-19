@@ -1,0 +1,30 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/portfoliocategory/add" method="POST">
+    <div class="mb-3">
+      {{portfoliocategoryform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name")}}
+    </div>
+    {{portfoliocategoryform.submit(class='btn btn-primary')}}
+</form>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for categorie in categories %}
+    <tr>
+      <td>{{categorie.Id}}</td>
+      <td>{{categorie.name}}</td>
+      <td>
+          <a href="/admin/portfoliocategory/delete/{{categorie.Id}}" class="btn btn-danger">Delete</a>
+          <a href="/admin/portfoliocategory/edit/{{categorie.Id}}" class="btn btn-primary">Edit</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}}

@@ -25,3 +25,13 @@ class Teams(db.Model):
     LinkedinAdress=db.Column(db.String(50))
     Order=db.Column(db.Integer)
     IsActive=db.Column(db.Boolean)
+class PortfolioCategory(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(50))
+    portfolios=db.relationship('Portfolio', backref='portfolio_category', lazy=True)
+class Portfolio(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(25))
+    Category_id=db.Column(db.Integer, db.ForeignKey('portfolio_category.Id'))
+    img=db.Column(db.String(50))
+    info=db.Column(db.String(100))

@@ -1,0 +1,51 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/portfolio/add" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      {{portfolioform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name")}}
+    </div>
+    <select name="Category" class="form-control">
+      <option value="Category options">Category options</option>
+      {% for category in categoies %}
+        <option value="{{category.Id}}">{{category.name}}</option>
+      {% endfor %}
+    </select>
+    <div class="mb-3">
+      {{portfolioform.img(class="form-control", id="exampleFormControlInput1", placeholder="Image")}}
+    </div>
+    <div class="mb-3">
+      {{portfolioform.info(class="form-control", id="exampleFormControlInput1", placeholder="Info")}}
+    </div>
+    <div class="mb-3">
+      {{portfolioform.submit(class="btn btn-primary", id="exampleFormControlInput1", placeholder="Add Portfolio")}}
+    </div>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Image</th>
+      <th scope="col">Category</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for portfolio in portfolios %}
+      <tr>
+        <th>{{portfolio.Id}}</th>
+        <th>{{portfolio.name}}</th>
+        <th>
+          <img src="/static/uploads/{{portfolio.img}}" style="width: 50px; height: 50px; object-fit:cover;">
+        </th>
+        <th>{{PortfolioCategory.query.filter_by(Id=portfolio.Category_id).first().name}}</th>
+        <th>
+          <a href="/admin/portfolio/update/{{portfolio.Id}}" class="btn btn-primary">Update</a>
+          <a href="/admin/portfolio/delete/{{portfolio.Id}}" class="btn btn-danger">Delete</a>
+        </th>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}}

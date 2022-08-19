@@ -26,3 +26,14 @@ class TeamsForm(FlaskForm):
     order=IntegerField('order')
     isactive=BooleanField('isacctive')
     submit=SubmitField('Add data')
+
+class PortfolioCategoryForm(FlaskForm):
+    name=StringField('name')
+    submit=SubmitField('Add data')
+
+class PortfolioForm(FlaskForm):
+    name=StringField('name')
+    category_id=IntegerField('category_id')
+    img=FileField('img')
+    info=StringField('info')
+    submit=SubmitField('Add Portfolio')

@@ -1,9 +1,7 @@
-from distutils import extension
-from email.mime import image
 from flask import render_template,redirect,request
 from admin import admin_bp
-from models import Messages, NavLinks, Teams
-from admin.forms import MessageForm, NavLinksForm, TeamsForm
+from models import Messages, NavLinks, Teams, Portfolio, PortfolioCategory
+from admin.forms import MessageForm, NavLinksForm, TeamsForm, PortfolioCategoryForm, PortfolioForm
 import os
 import random
 from werkzeug.utils import secure_filename
@@ -61,7 +59,7 @@ def navlinks_add():
         db.session.commit()
         return redirect('/admin/navlinks')
 
-@admin_bp.route('navlinks/delete/<id>',methods=['GET','POST'])
+@admin_bp.route('/navlinks/delete/<id>',methods=['GET','POST'])
 def navlinks_delete(id):
     from run import db
     link=NavLinks.query.get(id)
@@ -88,7 +86,7 @@ def teams_add():
         filename=secure_filename(file.filename)
         extension=filename.rsplit('.',1)[1]
         new_filename=f'Teams{random.randint(1,2000)}.{extension}'
-        file.save(os.path.join('./admin/static/uploads/', new_filename))
+        file.save(os.path.join('./static/uploads/', new_filename))
         team=Teams(
             Name=teamsform.name.data,
             Profession=teamsform.profession.data,
@@ -111,3 +109,50 @@ def teams_delete(id):
     db.session.delete(team)
     db.session.commit()
     return redirect('/admin/teams')
+
+@admin_bp.route('/portfoliocategory', methods=['GET','POST'])
+def portfoliocategory():
+    portfoliocategoryform=PortfolioCategoryForm()
+    categories=PortfolioCategory.query.all()
+    return render_template('admin/PortfolioCategory.html',portfoliocategoryform=portfoliocategoryform,categories=categories)
+
+@admin_bp.route('/portfoliocategory/add', methods=['GET','POST'])
+def portfoliocategory_add():
+    from run import db
+    from models import PortfolioCategory
+    if request.method=='POST':
+        category=PortfolioCategory(
+            name=request.form['name']
+        )
+        db.session.add(category)
+        db.session.commit()
+        return redirect('/admin/portfoliocategory')
+
+@admin_bp.route('/portfolio', methods=['GET','POST'])
+def portfolio():
+    from models import PortfolioCategory
+    categoies=PortfolioCategory.query.all()
+    portfolios=Portfolio.query.all()
+    portfolioform=PortfolioForm()
+    return render_template('admin/portfolio.html',portfolioform=portfolioform,categoies=categoies,portfolios=portfolios,PortfolioCategory=PortfolioCategory)
+
+@admin_bp.route('/portfolio/add', methods=['GET','POST'])
+def protfolio_add():
+    from run import db
+    from models import Portfolio
+    portfolioform=PortfolioForm()
+    if request.method=='POST':
+        file=request.files['img']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Portfolio{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./static/uploads/', new_filename))
+        portfolio=Portfolio(
+            name=portfolioform.name.data,
+            Category_id=request.form['Category'],
+            img=new_filename,
+            info=portfolioform.info.data
+        )
+        db.session.add(portfolio)
+        db.session.commit()
+        return redirect('/admin/portfolio')
