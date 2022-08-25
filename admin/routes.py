@@ -1,7 +1,7 @@
 from flask import render_template,redirect,request
 from admin import admin_bp
-from models import Messages, NavLinks, Teams, Portfolio, PortfolioCategory
-from admin.forms import MessageForm, NavLinksForm, TeamsForm, PortfolioCategoryForm, PortfolioForm
+from models import Messages, NavLinks, TeamImages, Teams, Portfolio, PortfolioCategory
+from admin.forms import MessageForm, NavLinksForm, TeamsForm, PortfolioCategoryForm, PortfolioForm,TeamImagesForm
 import os
 import random
 from werkzeug.utils import secure_filename
@@ -106,9 +106,37 @@ def teams_add():
 def teams_delete(id):
     from run import db
     team=Teams.query.get(id)
+    filename=f"./static/uploads/{team.Image}"
+    os.remove(filename)
     db.session.delete(team)
     db.session.commit()
     return redirect('/admin/teams')
+
+@admin_bp.route('/teamsimage', methods=['GET','POST'])
+def teamsimage():
+    from models import Teams
+    teams=Teams.query.all()
+    teamimagesform=TeamImagesForm()
+    teamimages=TeamImages.query.all()
+    return render_template('admin/teamsimage.html',teams=teams,teamimagesform=teamimagesform,teamimages=teamimages,Teamsdata=Teams)
+
+@admin_bp.route('/teamsimage/add', methods=['GET','POST'])
+def teamsimage_add():
+    from run import db
+    if request.method=='POST':
+        files=request.files.getlist('image')
+        for file in files:
+            filename=secure_filename(file.filename)
+            extension=filename.rsplit('.',1)[1]
+            new_filename=f'TeamImages{random.randint(1,2000)}.{extension}'
+            file.save(os.path.join('./static/uploads/', new_filename))
+            teamsimage=TeamImages(
+                Teamsid=request.form['Teams'],
+                image=new_filename
+            )
+            db.session.add(teamsimage)
+        db.session.commit()
+        return redirect('/admin/teamsimage')
 
 @admin_bp.route('/portfoliocategory', methods=['GET','POST'])
 def portfoliocategory():

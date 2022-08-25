@@ -27,6 +27,11 @@ class TeamsForm(FlaskForm):
     isactive=BooleanField('isacctive')
     submit=SubmitField('Add data')
 
+class TeamImagesForm(FlaskForm):
+    Teamsid=IntegerField('teamsid')
+    image=FileField('image')
+    submit=SubmitField('Add image')
+
 class PortfolioCategoryForm(FlaskForm):
     name=StringField('name')
     submit=SubmitField('Add data')
