@@ -1,3 +1,4 @@
+from genericpath import isdir
 from flask import render_template,redirect,request
 from admin import admin_bp
 from models import Messages, NavLinks, TeamImages, Teams, Portfolio, PortfolioCategory
@@ -124,12 +125,17 @@ def teamsimage():
 def teamsimage_add():
     from run import db
     if request.method=='POST':
+        name=Teams.query.filter_by(Id=request.form['Teams']).first().Name
         files=request.files.getlist('image')
         for file in files:
             filename=secure_filename(file.filename)
             extension=filename.rsplit('.',1)[1]
             new_filename=f'TeamImages{random.randint(1,2000)}.{extension}'
-            file.save(os.path.join('./static/uploads/', new_filename))
+            if os.path.isdir(f'./static/uploads/{name}'):
+                file.save(os.path.join(f'./static/uploads/{name}/', new_filename))
+            else:
+                os.makedirs(f'./static/uploads/{name}')
+                file.save(os.path.join(f'./static/uploads/{name}/', new_filename))
             teamsimage=TeamImages(
                 Teamsid=request.form['Teams'],
                 image=new_filename
