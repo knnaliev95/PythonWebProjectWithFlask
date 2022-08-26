@@ -42,3 +42,7 @@ class PortfolioForm(FlaskForm):
     img=FileField('img')
     info=StringField('info')
     submit=SubmitField('Add Portfolio')
+
+class ClientsForm(FlaskForm):
+    image=FileField('image')
+    submit=SubmitField('Add Client')

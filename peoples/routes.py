@@ -10,9 +10,10 @@ from admin.forms import MessageForm
 def peoples_index():
     messageForm=MessageForm()
     from run import db
-    from models import Messages, NavLinks,Teams,Portfolio,PortfolioCategory
+    from models import Messages, NavLinks,Teams,Portfolio,PortfolioCategory,Clients
     navlinks=NavLinks.query.all()
     teams=Teams.query.filter_by(IsActive=True).order_by(Teams.Order)
     portfolios=Portfolio.query.all()
     categories=PortfolioCategory.query.all()
-    return render_template('peoples/index.html', messageForm=messageForm, navlinks=navlinks, teams=teams,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory)
+    clients=Clients.query.all()
+    return render_template('peoples/index.html', messageForm=messageForm, navlinks=navlinks, teams=teams,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory,clients=clients)

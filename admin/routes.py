@@ -1,8 +1,7 @@
-from genericpath import isdir
 from flask import render_template,redirect,request
 from admin import admin_bp
-from models import Messages, NavLinks, TeamImages, Teams, Portfolio, PortfolioCategory
-from admin.forms import MessageForm, NavLinksForm, TeamsForm, PortfolioCategoryForm, PortfolioForm,TeamImagesForm
+from models import Clients, Messages, NavLinks, TeamImages, Teams, Portfolio, PortfolioCategory
+from admin.forms import MessageForm, NavLinksForm, TeamsForm, PortfolioCategoryForm, PortfolioForm,TeamImagesForm,ClientsForm
 import os
 import random
 from werkzeug.utils import secure_filename
@@ -198,3 +197,35 @@ def protfolio_add():
         db.session.add(portfolio)
         db.session.commit()
         return redirect('/admin/portfolio')
+
+@admin_bp.route('/clients', methods=['GET','POST'])
+def clients():
+    clientform=ClientsForm()
+    clients=Clients.query.all()
+    return render_template('admin/clients/clients.html', clientform=clientform,clients=clients)
+
+@admin_bp.route('/clients/add', methods=['GET','POST'])
+def clients_add():
+    from run import db
+    if request.method=='POST':
+        file=request.files['image']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Clients{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./static/uploads/', new_filename))
+        client=Clients(
+            image=new_filename
+        )
+        db.session.add(client)
+        db.session.commit()
+        return redirect('/admin/clients')
+
+@admin_bp.route('/clients/delete/<id>', methods=['GET','POST'])
+def clients_delete(id):
+    from run import db
+    client=Clients.query.get(id)
+    filename=f"./static/uploads/{client.image}"
+    os.remove(filename)
+    db.session.delete(client)
+    db.session.commit()
+    return redirect('/admin/clients')

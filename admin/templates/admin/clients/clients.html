@@ -1,0 +1,33 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/clients/add" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      {{clientform.image(class="form-control", id="exampleFormControlInput1", placeholder="Image")}}
+    </div>
+    {{clientform.submit(class='btn btn-primary')}}
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Image</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for client in clients %}
+    <tr>
+      <td>{{client.Id}}</td>
+      <td>
+        <img src="/static/uploads/{{client.image}}" style="width: 150px; height: 50px; object-fit:cover;">
+      </td>
+      <td>
+          <a href="/admin/clients/delete/{{client.Id}}" class="btn btn-danger">Delete</a>
+          <a href="/admin/clients/edit/{{client.Id}}" class="btn btn-primary">Edit</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}}
