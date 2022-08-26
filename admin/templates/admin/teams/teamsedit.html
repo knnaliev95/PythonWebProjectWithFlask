@@ -1,0 +1,37 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/teams/edit/{{team.Id}}" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      {{teamsform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name", value='{{team.Name}}')}}
+    </div>
+    <div class="mb-3">
+      {{teamsform.profession(class="form-control", id="exampleFormControlInput1", placeholder="Profession")}}
+    </div>
+    <div class="mb-3">
+      {{teamsform.image(class="form-control", id="exampleFormControlInput1", placeholder="Image")}}
+    </div>
+    <div class="mb-3">
+        {{teamsform.twitter(class="form-control", id="exampleFormControlInput1", placeholder="Twitter")}}
+      </div>
+      <div class="mb-3">
+        {{teamsform.facebook(class="form-control", id="exampleFormControlInput1", placeholder="Facebook")}}
+      </div>
+      <div class="mb-3">
+        {{teamsform.instagram(class="form-control", id="exampleFormControlInput1", placeholder="Instagram")}}
+      </div>
+      <div class="mb-3">
+        {{teamsform.linkedin(class="form-control", id="exampleFormControlInput1", placeholder="Linkedin")}}
+      </div>
+      <div class="mb-3">
+        {{teamsform.order(class="form-control", id="exampleFormControlInput1", placeholder="Order")}}
+      </div>
+    <div class="form-check">
+      {{teamsform.isactive(class="form-check-input", type="checkbox", id="flexCheckDefault")}}
+      <label class="form-check-label" for="flexCheckDefault">
+        Aktiv olsun
+      </label>
+    </div>
+    {{teamsform.submit(class='btn btn-primary')}}
+</form>
+    
+{% endblock %}

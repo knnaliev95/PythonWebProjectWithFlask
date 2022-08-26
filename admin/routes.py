@@ -14,7 +14,7 @@ def index():
 @admin_bp.route('/messages')
 def messages():
     messages=Messages.query.all()
-    return render_template('admin/messages.html', messages=messages)
+    return render_template('admin/messages/messages.html', messages=messages)
 
 @admin_bp.route('/message/add', methods=['GET','POST'])
 def message_add():
@@ -43,7 +43,7 @@ def message_delete(id):
 def navlinks():
     navlinks=NavLinksForm()
     navigationlink=NavLinks.query.all()
-    return render_template('admin/navlinks.html', navlinks=navlinks, navigationlink=navigationlink)
+    return render_template('admin/navbar/navlinks.html', navlinks=navlinks, navigationlink=navigationlink)
 
 @admin_bp.route('/navlinks/add', methods=['GET','POST'])
 def navlinks_add():
@@ -70,13 +70,15 @@ def navlinks_delete(id):
 
 @admin_bp.route('/navlinks/edit/<id>', methods=['GET','POST'])
 def navlinks_edit(id):
-    return render_template('admin/navlinkedit.html')
+    navlinks=NavLinks.query.get(id)
+    navlinksform=NavLinksForm()
+    return render_template('admin/navbar/navlinksedit.html',navlinksform=navlinksform,navlinks=navlinks)
 
 @admin_bp.route('/teams', methods=['GET','POST'])
 def teams():
     teamsform=TeamsForm()
     teams=Teams.query.all()
-    return render_template('admin/teams.html', teamsform=teamsform, teams=teams)
+    return render_template('admin/teams/teams.html', teamsform=teamsform, teams=teams)
 
 @admin_bp.route('/teams/add', methods=['GET','POST'])
 def teams_add():
@@ -113,13 +115,19 @@ def teams_delete(id):
     db.session.commit()
     return redirect('/admin/teams')
 
+@admin_bp.route('/teams/edit/<id>', methods=['GET','POST'])
+def teams_edit(id):
+    team=Teams.query.get(id)
+    teamsform=TeamsForm()
+    return render_template('admin/teams/teamsedit.html',team=team, teamsform=teamsform)
+
 @admin_bp.route('/teamsimage', methods=['GET','POST'])
 def teamsimage():
     from models import Teams
     teams=Teams.query.all()
     teamimagesform=TeamImagesForm()
     teamimages=TeamImages.query.all()
-    return render_template('admin/teamsimage.html',teams=teams,teamimagesform=teamimagesform,teamimages=teamimages,Teamsdata=Teams)
+    return render_template('admin/teams/teamsimage.html',teams=teams,teamimagesform=teamimagesform,teamimages=teamimages,Teamsdata=Teams)
 
 @admin_bp.route('/teamsimage/add', methods=['GET','POST'])
 def teamsimage_add():
@@ -148,7 +156,7 @@ def teamsimage_add():
 def portfoliocategory():
     portfoliocategoryform=PortfolioCategoryForm()
     categories=PortfolioCategory.query.all()
-    return render_template('admin/PortfolioCategory.html',portfoliocategoryform=portfoliocategoryform,categories=categories)
+    return render_template('admin/portfolio/PortfolioCategory.html',portfoliocategoryform=portfoliocategoryform,categories=categories)
 
 @admin_bp.route('/portfoliocategory/add', methods=['GET','POST'])
 def portfoliocategory_add():
@@ -168,7 +176,7 @@ def portfolio():
     categoies=PortfolioCategory.query.all()
     portfolios=Portfolio.query.all()
     portfolioform=PortfolioForm()
-    return render_template('admin/portfolio.html',portfolioform=portfolioform,categoies=categoies,portfolios=portfolios,PortfolioCategory=PortfolioCategory)
+    return render_template('admin/portfolio/portfolio.html',portfolioform=portfolioform,categoies=categoies,portfolios=portfolios,PortfolioCategory=PortfolioCategory)
 
 @admin_bp.route('/portfolio/add', methods=['GET','POST'])
 def protfolio_add():

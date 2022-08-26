@@ -1,0 +1,22 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/navlinks/edit/{{navlinks.Id}}" method="POST">
+    <div class="mb-3">
+      {{navlinksform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name", value='{{navlinks.Name}}')}}
+    </div>
+    <div class="mb-3">
+      {{navlinksform.url(class="form-control", id="exampleFormControlInput1", placeholder="URL", value='{{navlinks.Url}}')}}
+    </div>
+    <div class="mb-3">
+      {{navlinksform.order(class="form-control", id="exampleFormControlInput1", placeholder="Order", value='{{navlinks.Order}}')}}
+    </div>
+    <div class="form-check">
+      {{navlinksform.isactive(class="form-check-input", type="checkbox", id="flexCheckDefault", value='{{navlinks.Name}}')}}
+      <label class="form-check-label" for="flexCheckDefault">
+        Aktiv olsun
+      </label>
+    </div>
+    {{navlinksform.submit(class='btn btn-primary')}}
+</form>
+
+{% endblock %}}

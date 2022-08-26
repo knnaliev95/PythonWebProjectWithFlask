@@ -42,3 +42,62 @@ class Portfolio(db.Model):
     Category_id=db.Column(db.Integer, db.ForeignKey('portfolio_category.Id'))
     img=db.Column(db.String(50))
     info=db.Column(db.String(100))
+
+class FeaturedServices(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    icon=db.Column(db.String(50))
+    name=db.Column(db.String(50))
+    info=db.Column(db.String(250))
+
+class Clients(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    image=db.Column(db.String(50))
+
+class Features(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(50))
+    icon=db.Column(db.String(50))
+    info=db.Column(db.String(250))
+    image=db.Column(db.String(50))
+    options=db.relationship('FeatureOptions', backref='feature_options', lazy=True)
+
+class FeatureOptions(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    features_id=db.Column(db.Integer, db.ForeignKey('features.Id'))
+    option=db.Column(db.String(150))
+
+class Services(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(50))
+    info=db.Column(db.String(250))
+    icon=db.Column(db.String(50))
+    image=db.Column(db.String(50))
+
+class Testimanials(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(50))
+    profession=db.Column(db.String(50))
+    info=db.Column(db.String(150))
+
+class Pricing(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(50))
+    amount=db.Column(db.Integer)
+    options=db.relationship('PricingOptions', backref='pricing_options', lazy=True)
+
+class PricingOptions(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    pricing_id=db.Column(db.Integer, db.ForeignKey('pricing.Id'))
+    option=db.Column(db.String(50))
+
+class Blogs(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(50))
+    header=db.Column(db.String(150))
+    info=db.Column(db.String(250))
+
+class OurInformations(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    location=db.Column(db.String(150))
+    email=db.Column(db.String(50))
+    phone=db.Column(db.String(50))
