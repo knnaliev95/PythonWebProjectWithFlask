@@ -1,0 +1,43 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/featuredservice/add" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      {{featuredserviceform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name")}}
+    </div>
+    <div class="mb-3">
+      {{featuredserviceform.icon(class="form-control my-3", id="exampleFormControlInput1", placeholder="Icon")}}
+    </div>
+    <div class="mb-3">
+      {{featuredserviceform.info(class="form-control", id="exampleFormControlInput1", placeholder="Info")}}
+    </div>
+    <div class="mb-3">
+      {{featuredserviceform.submit(class="btn btn-primary", id="exampleFormControlInput1", placeholder="Add Feature")}}
+    </div>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Icon</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for featuredservice in featuredservices %}
+      <tr>
+        <th>{{featuredservice.Id}}</th>
+        <th>{{featuredservice.name}}</th>
+        <th>
+            <div class="icon"><i class="{{featuredservice.icon}}"></i></div>
+        </th>
+        <th>
+          <a href="/admin/featuredservice/update/{{featuredservice.Id}}" class="btn btn-primary">Update</a>
+          <a href="/admin/featuredservice/delete/{{featuredservice.Id}}" class="btn btn-danger">Delete</a>
+        </th>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}}

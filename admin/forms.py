@@ -46,3 +46,25 @@ class PortfolioForm(FlaskForm):
 class ClientsForm(FlaskForm):
     image=FileField('image')
     submit=SubmitField('Add Client')
+
+class FeaturedserviceForm(FlaskForm):
+    name=StringField('name')
+    icon=StringField('icon')
+    info=TextAreaField('info')
+    submit=SubmitField('Add Feature')
+
+class ServiceForm(FlaskForm):
+    name=StringField('name')
+    icon=StringField('icon')
+    image=FileField('image')
+    info=TextAreaField('info')
+    submit=SubmitField('Add Service')
+
+class PricingForm(FlaskForm):
+    name=StringField('name')
+    amount=IntegerField('amount')
+    submit=SubmitField('Add Price')
+
+class PricingOptionsForm(FlaskForm):
+    option=StringField('option')
+    submit=SubmitField('Add Option')

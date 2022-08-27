@@ -1,7 +1,7 @@
 from flask import render_template,redirect,request
 from admin import admin_bp
-from models import Clients, Messages, NavLinks, TeamImages, Teams, Portfolio, PortfolioCategory
-from admin.forms import MessageForm, NavLinksForm, TeamsForm, PortfolioCategoryForm, PortfolioForm,TeamImagesForm,ClientsForm
+from models import Clients, FeaturedServices, Messages, NavLinks, TeamImages, Teams, Portfolio, PortfolioCategory,Services,Pricing,PricingOptions
+from admin.forms import MessageForm, NavLinksForm, TeamsForm, PortfolioCategoryForm, PortfolioForm,TeamImagesForm,ClientsForm,FeaturedserviceForm,ServiceForm,PricingForm,PricingOptionsForm
 import os
 import random
 from werkzeug.utils import secure_filename
@@ -229,3 +229,115 @@ def clients_delete(id):
     db.session.delete(client)
     db.session.commit()
     return redirect('/admin/clients')
+
+@admin_bp.route('/featuredservice', methods=['GET','POST'])
+def featuredservice():
+    featuredserviceform=FeaturedserviceForm()
+    featuredservices=FeaturedServices.query.all()
+    return render_template('admin/featuredservice/featuredservice.html',featuredserviceform=featuredserviceform,featuredservices=featuredservices)
+
+@admin_bp.route('/featuredservice/add', methods=['GET','POST'])
+def featuredservice_add():
+    featuredserviceform=FeaturedserviceForm()
+    from run import db
+    if request.method=='POST':
+        featuredservice=FeaturedServices(
+            icon=featuredserviceform.icon.data,
+            name=featuredserviceform.name.data,
+            info=featuredserviceform.info.data
+        )
+        db.session.add(featuredservice)
+        db.session.commit()
+        return redirect('/admin/featuredservice')
+
+@admin_bp.route('/featuredservice/delete/<id>', methods=['GET','POST'])
+def featuredservice_delete(id):
+    from run import db
+    featuredservice=FeaturedServices.query.get(id)
+    db.session.delete(featuredservice)
+    db.session.commit()
+    return redirect('/admin/featuredservice')
+
+@admin_bp.route('/service', methods=['GET','POST'])
+def service():
+    servicesform=ServiceForm()
+    services=Services.query.all()
+    return render_template('admin/service/service.html',servicesform=servicesform,services=services)
+
+@admin_bp.route('/service/add', methods=['GET','POST'])
+def service_add():
+    from run import db
+    serviceform=ServiceForm()
+    if request.method=='POST':
+        file=request.files['image']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Service{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./static/uploads/', new_filename))
+        service=Services(
+            name=serviceform.name.data,
+            info=serviceform.info.data,
+            icon=serviceform.icon.data,
+            image=new_filename
+        )
+        db.session.add(service)
+        db.session.commit()
+        return redirect('/admin/service')
+
+@admin_bp.route('/service/delete/<id>', methods=['GET','POST'])
+def service_delete(id):
+    from run import db
+    service=Services.query.get(id)
+    filename=f"./static/uploads/{service.image}"
+    os.remove(filename)
+    db.session.delete(service)
+    db.session.commit()
+    return redirect('/admin/service')
+
+@admin_bp.route('/pricing', methods=['GET','POST'])
+def pricing():
+    pricingform=PricingForm()
+    pricings=Pricing.query.all()
+    return render_template('admin/pricing/pricing.html',pricingform=pricingform,pricings=pricings)
+
+@admin_bp.route('/pricing/add', methods=['GET','POST'])
+def pricing_add():
+    from run import db
+    pricingform=PricingForm()
+    if request.method=='POST':
+        price=Pricing(
+            name=pricingform.name.data,
+            amount=pricingform.amount.data
+        )
+        db.session.add(price)
+        db.session.commit()
+        return redirect('/admin/pricing')
+
+@admin_bp.route('/pricingoption', methods=['GET','POST'])
+def pricingoption():
+    from models import Pricing
+    pricings=Pricing.query.all()
+    pricingoptionform=PricingOptionsForm()
+    pricingoptions=PricingOptions.query.all()
+    return render_template('admin/pricing/pricingoptions.html',pricings=pricings,pricingoptionform=pricingoptionform,pricingoptions=pricingoptions,Pricing=Pricing)
+
+@admin_bp.route('/pricingoption/add', methods=['GET','POST'])
+def pricingoption_add():
+    from run import db
+    pricingoptionform=PricingOptionsForm()
+    if request.method=='POST':
+        pricingoption=PricingOptions(
+            pricing_id=request.form['pricing'],
+            option=pricingoptionform.option.data
+        )
+        db.session.add(pricingoption)
+        db.session.commit()
+        return redirect('/admin/pricingoption')
+
+@admin_bp.route('/pricingoption/delete/<id>', methods=['GET','POST'])
+def pricingoption_delete(id):
+    from run import db
+    pricingoption=PricingOptions.query.get(id)
+    db.session.delete(pricingoption)
+    db.session.commit()
+    return redirect('/admin/pricingoption')

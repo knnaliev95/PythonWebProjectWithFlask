@@ -1,19 +1,19 @@
 from flask import Flask,render_template
-
-
-
-
 from peoples import peoples_bp
-from admin.forms import MessageForm
 
 @peoples_bp.route('/', methods=['GET','POST'])
 def peoples_index():
-    messageForm=MessageForm()
     from run import db
-    from models import Messages, NavLinks,Teams,Portfolio,PortfolioCategory,Clients
+    from models import Messages, NavLinks,Teams,Portfolio,PortfolioCategory,Clients,FeaturedServices,Services,Pricing,PricingOptions
+    from admin.forms import MessageForm
+    messageForm=MessageForm()
     navlinks=NavLinks.query.all()
     teams=Teams.query.filter_by(IsActive=True).order_by(Teams.Order)
     portfolios=Portfolio.query.all()
     categories=PortfolioCategory.query.all()
     clients=Clients.query.all()
-    return render_template('peoples/index.html', messageForm=messageForm, navlinks=navlinks, teams=teams,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory,clients=clients)
+    featuredservices=FeaturedServices.query.all()
+    services=Services.query.all()
+    pricings=Pricing.query.all()
+    pricingoptions=PricingOptions.query.all()
+    return render_template('peoples/index.html',messageForm=messageForm, navlinks=navlinks, teams=teams,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory,clients=clients,featuredservices=featuredservices,services=services,pricings=pricings,PricingOptions=PricingOptions)

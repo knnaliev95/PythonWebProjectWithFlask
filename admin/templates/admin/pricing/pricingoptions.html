@@ -1,0 +1,41 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/pricingoption/add" method="POST" enctype="multipart/form-data">
+    <select name="pricing" class="form-control">
+      <option value="Pricing options">Pricing options</option>
+      {% for pricing in pricings %}
+        <option value="{{pricing.Id}}">{{pricing.name}}</option>
+      {% endfor %}
+    </select>
+    <div class="mb-3">
+      {{pricingoptionform.option(class="form-control my-3", id="exampleFormControlInput1", placeholder="Option")}}
+    </div>
+    <div class="mb-3">
+      {{pricingoptionform.submit(class="btn btn-primary", id="exampleFormControlInput1", placeholder="Add Option")}}
+    </div>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Pricing Name</th>
+      <th scope="col">Option</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for pricingoption in pricingoptions %}
+      <tr>
+        <th>{{pricingoption.Id}}</th>
+        <th>{{Pricing.query.filter_by(Id=pricingoption.pricing_id).first().name}}</th>
+        <th>{{pricingoption.option}}</th>
+        <th>
+          <a href="/admin/pricingoption/update/{{pricingoption.Id}}" class="btn btn-primary">Update</a>
+          <a href="/admin/pricingoption/delete/{{pricingoption.Id}}" class="btn btn-danger">Delete</a>
+        </th>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}}

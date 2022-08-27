@@ -1,0 +1,48 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/service/add" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      {{servicesform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name")}}
+    </div>
+    <div class="mb-3">
+      {{servicesform.icon(class="form-control my-3", id="exampleFormControlInput1", placeholder="Icon")}}
+    </div>
+    <div class="mb-3">
+      {{servicesform.image(class="form-control", id="exampleFormControlInput1", placeholder="Image")}}
+    </div>
+    <div class="mb-3">
+        {{servicesform.info(class="form-control", id="exampleFormControlInput1", placeholder="Info")}}
+      </div>
+    <div class="mb-3">
+      {{servicesform.submit(class="btn btn-primary", id="exampleFormControlInput1", placeholder="Add Portfolio")}}
+    </div>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Icon</th>
+      <th scope="col">Image</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for service in services %}
+      <tr>
+        <th>{{service.Id}}</th>
+        <th>{{service.name}}</th>
+        <th>{{service.icon}}</th>
+        <th>
+          <img src="/static/uploads/{{service.image}}" style="width: 50px; height: 50px; object-fit:cover;">
+        </th>
+        <th>
+          <a href="/admin/service/update/{{service.Id}}" class="btn btn-primary">Update</a>
+          <a href="/admin/service/delete/{{service.Id}}" class="btn btn-danger">Delete</a>
+        </th>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}}
