@@ -1,0 +1,9 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/portfoliocategory/edit/{{category.Id}}" method="POST">
+    <div class="mb-3">
+      {{portfoliocategoryform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name", value=category.name)}}
+    </div>
+    {{portfoliocategoryform.submit(class='btn btn-primary', value='Update')}}
+</form>
+{% endblock %}}

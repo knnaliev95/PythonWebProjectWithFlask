@@ -181,6 +181,16 @@ def teamsimage_add():
             db.session.add(teamsimage)
         db.session.commit()
         return redirect('/admin/teamsimage')
+
+@admin_bp.route('/teamsimage/delete/<id>', methods=['GET','POST'])
+def teamsimage_delete(id):
+    from run import db
+    image=TeamImages.query.get(id)
+    filename=f"./static/uploads/{image.image}"
+    os.remove(filename)
+    db.session.delete(image)
+    db.session.commit()
+    return redirect('/admin/teamsimage')
 # teams image end
 
 # portfoliocategory start
@@ -209,6 +219,17 @@ def portfoliocategory_delete(id):
     db.session.delete(portfoliocategory)
     db.session.commit()
     return redirect('/admin/portfoliocategory')
+
+@admin_bp.route('/portfoliocategory/edit/<id>', methods=['GET','POST'])
+def portfoliocategory_edit(id):
+    from run import db
+    category=PortfolioCategory.query.get(id)
+    portfoliocategoryform=PortfolioCategoryForm()
+    if request.method=='POST':
+        category.name=portfoliocategoryform.name.data
+        db.session.commit()
+        return redirect('/admin/portfoliocategory')
+    return render_template('admin/portfolio/portfoliocategoryedit.html',portfoliocategoryform=portfoliocategoryform,category=category)
 # portfoliocategory end
 
 # portfolio start
@@ -250,6 +271,26 @@ def portfolio_delete(id):
     db.session.delete(portfolio)
     db.session.commit()
     return redirect('/admin/portfolio')
+
+@admin_bp.route('/portfolio/edit/<id>', methods=['GET','POST'])
+def portfolio_edit(id):
+    from run import db
+    portfolioform=PortfolioForm()
+    categories=PortfolioCategory.query.all()
+    portfolio=Portfolio.query.get(id)
+    if request.method=='POST':
+        file=request.files['img']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Portfolio{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./static/uploads/', new_filename))
+        portfolio.name=portfolioform.name.data,
+        portfolio.Category_id=request.form['Category'],
+        portfolio.img=new_filename,
+        portfolio.info=portfolioform.info.data
+        db.session.commit()
+        return redirect('/admin/portfolio')
+    return render_template('admin/portfolio/portfolioedit.html',portfolioform=portfolioform,portfolio=portfolio,categories=categories)
 # portfolio end
 
 # clients start
@@ -286,6 +327,7 @@ def clients_delete(id):
     return redirect('/admin/clients')
 # clients end
 
+# featuredservice start
 @admin_bp.route('/featuredservice', methods=['GET','POST'])
 def featuredservice():
     featuredserviceform=FeaturedserviceForm()
@@ -314,6 +356,21 @@ def featuredservice_delete(id):
     db.session.commit()
     return redirect('/admin/featuredservice')
 
+@admin_bp.route('/featuredservice/edit/<id>', methods=['GET','POST'])
+def featuredservice_edit(id):
+    from run import db
+    service=FeaturedServices.query.get(id)
+    featuredserviceform=FeaturedserviceForm()
+    if request.method=='POST':
+        service.icon=featuredserviceform.icon.data
+        service.name=featuredserviceform.name.data
+        service.info=featuredserviceform.info.data
+        db.session.commit()
+        return redirect('admin/featuredservice')
+    return render_template('admin/feturedservice/featuredserviceedit.html',featuredserviceform=featuredserviceform,service=service)
+# featuredservice end
+
+# service start
 @admin_bp.route('/service', methods=['GET','POST'])
 def service():
     servicesform=ServiceForm()
@@ -349,7 +406,9 @@ def service_delete(id):
     db.session.delete(service)
     db.session.commit()
     return redirect('/admin/service')
+# service end
 
+# pricing start
 @admin_bp.route('/pricing', methods=['GET','POST'])
 def pricing():
     pricingform=PricingForm()
@@ -368,7 +427,9 @@ def pricing_add():
         db.session.add(price)
         db.session.commit()
         return redirect('/admin/pricing')
+# pricing end
 
+# pricing option start
 @admin_bp.route('/pricingoption', methods=['GET','POST'])
 def pricingoption():
     from models import Pricing
@@ -397,3 +458,4 @@ def pricingoption_delete(id):
     db.session.delete(pricingoption)
     db.session.commit()
     return redirect('/admin/pricingoption')
+# pricing option end

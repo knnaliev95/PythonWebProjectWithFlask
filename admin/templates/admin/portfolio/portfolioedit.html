@@ -1,0 +1,21 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/portfolio/edit/{{portfolio.Id}}" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      {{portfolioform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name", value=portfolio.name)}}
+    </div>
+    <select name="Category" class="form-control">
+      <option value="Category options">Category options</option>
+      {% for category in categories %}
+        <option value="{{category.Id}}">{{category.name}}</option>
+      {% endfor %}
+    </select>
+    <div class="mb-3">
+      {{portfolioform.img(class="form-control my-3", id="exampleFormControlInput1", placeholder="Image")}}
+    </div>
+    <div class="mb-3">
+      {{portfolioform.info(class="form-control", id="exampleFormControlInput1", placeholder="Info", value=portfolio.info)}}
+    </div>
+    <div class="mb-3">
+      {{portfolioform.submit(class="btn btn-primary", id="exampleFormControlInput1", value="Update Portfolio")}}
+{% endblock %}}

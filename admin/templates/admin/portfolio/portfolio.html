@@ -41,7 +41,7 @@
         </th>
         <th>{{PortfolioCategory.query.filter_by(Id=portfolio.Category_id).first().name}}</th>
         <th>
-          <a href="/admin/portfolio/update/{{portfolio.Id}}" class="btn btn-primary">Update</a>
+          <a href="/admin/portfolio/edit/{{portfolio.Id}}" class="btn btn-primary">Update</a>
           <a href="/admin/portfolio/delete/{{portfolio.Id}}" class="btn btn-danger">Delete</a>
         </th>
       </tr>
