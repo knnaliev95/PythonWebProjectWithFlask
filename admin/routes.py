@@ -10,6 +10,7 @@ from werkzeug.utils import secure_filename
 def index():
     return render_template('admin/index.html')
 
+# Messages start
 @admin_bp.route('/messages')
 def messages():
     messages=Messages.query.all()
@@ -37,7 +38,9 @@ def message_delete(id):
     db.session.delete(message)
     db.session.commit()
     return redirect('/admin/messages')
+# messages end
 
+# navigation start
 @admin_bp.route('/navlinks', methods=['GET','POST'])
 def navlinks():
     navlinks=NavLinksForm()
@@ -69,10 +72,19 @@ def navlinks_delete(id):
 
 @admin_bp.route('/navlinks/edit/<id>', methods=['GET','POST'])
 def navlinks_edit(id):
+    from run import db
     navlinks=NavLinks.query.get(id)
     navlinksform=NavLinksForm()
+    if request.method=='POST':
+        navlinks.Name=navlinksform.name.data
+        navlinks.Url=navlinksform.url.data
+        navlinks.Order=navlinksform.order.data
+        navlinks.IsActive=navlinksform.isactive.data
+        db.session.commit()
     return render_template('admin/navbar/navlinksedit.html',navlinksform=navlinksform,navlinks=navlinks)
+# navigation end
 
+# teams start
 @admin_bp.route('/teams', methods=['GET','POST'])
 def teams():
     teamsform=TeamsForm()
@@ -116,10 +128,29 @@ def teams_delete(id):
 
 @admin_bp.route('/teams/edit/<id>', methods=['GET','POST'])
 def teams_edit(id):
+    from run import db
     team=Teams.query.get(id)
     teamsform=TeamsForm()
+    if request.method=='POST':
+        file=request.files['image']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Teams{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./static/uploads/', new_filename))
+        team.Name=teamsform.name.data,
+        team.Profession=teamsform.profession.data,
+        team.Image=new_filename,
+        team.TwitterAdress=teamsform.twitter.data,
+        team.FacebookAdress=teamsform.facebook.data,
+        team.InstagramAdress=teamsform.instagram.data,
+        team.LinkedinAdress=teamsform.linkedin.data,
+        team.Order=teamsform.order.data,
+        team.IsActive=teamsform.isactive.data
+        db.session.commit()
     return render_template('admin/teams/teamsedit.html',team=team, teamsform=teamsform)
+# teams end
 
+# teams image start
 @admin_bp.route('/teamsimage', methods=['GET','POST'])
 def teamsimage():
     from models import Teams
@@ -150,7 +181,9 @@ def teamsimage_add():
             db.session.add(teamsimage)
         db.session.commit()
         return redirect('/admin/teamsimage')
+# teams image end
 
+# portfoliocategory start
 @admin_bp.route('/portfoliocategory', methods=['GET','POST'])
 def portfoliocategory():
     portfoliocategoryform=PortfolioCategoryForm()
@@ -169,6 +202,16 @@ def portfoliocategory_add():
         db.session.commit()
         return redirect('/admin/portfoliocategory')
 
+@admin_bp.route('/portfoliocategory/delete/<id>', methods=['GET','POST'])
+def portfoliocategory_delete(id):
+    from run import db
+    portfoliocategory=PortfolioCategory.query.get(id)
+    db.session.delete(portfoliocategory)
+    db.session.commit()
+    return redirect('/admin/portfoliocategory')
+# portfoliocategory end
+
+# portfolio start
 @admin_bp.route('/portfolio', methods=['GET','POST'])
 def portfolio():
     from models import PortfolioCategory
@@ -198,6 +241,18 @@ def protfolio_add():
         db.session.commit()
         return redirect('/admin/portfolio')
 
+@admin_bp.route('/portfolio/delete/<id>', methods=['GET','POST'])
+def portfolio_delete(id):
+    from run import db
+    portfolio=Portfolio.query.get(id)
+    filename=f"./static/uploads/{portfolio.img}"
+    os.remove(filename)
+    db.session.delete(portfolio)
+    db.session.commit()
+    return redirect('/admin/portfolio')
+# portfolio end
+
+# clients start
 @admin_bp.route('/clients', methods=['GET','POST'])
 def clients():
     clientform=ClientsForm()
@@ -229,6 +284,7 @@ def clients_delete(id):
     db.session.delete(client)
     db.session.commit()
     return redirect('/admin/clients')
+# clients end
 
 @admin_bp.route('/featuredservice', methods=['GET','POST'])
 def featuredservice():

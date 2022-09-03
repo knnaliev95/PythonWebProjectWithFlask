@@ -11,6 +11,8 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     name=StringField('name')
     email=EmailField('email')
-    password=PasswordField('password',validators=[validators.length(min=5,max=10),validators.Regexp("^(?=.*[a-z])"),
-            validators.Regexp("^(?=.*[A-Z])"),])
+    password=PasswordField('password',validators=[
+        validators.length(min=5,max=10),
+        validators.regexp("^\w+$"),
+        validators.regexp("^\W+$")])
     submit=SubmitField('Register')

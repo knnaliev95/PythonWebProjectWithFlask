@@ -2,31 +2,31 @@
 {% block body %}
 <form action="/admin/teams/edit/{{team.Id}}" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
-      {{teamsform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name", value='{{team.Name}}')}}
+      {{teamsform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name", value=team.Name)}}
     </div>
     <div class="mb-3">
-      {{teamsform.profession(class="form-control", id="exampleFormControlInput1", placeholder="Profession")}}
+      {{teamsform.profession(class="form-control", id="exampleFormControlInput1", placeholder="Profession", value=team.Profession)}}
     </div>
     <div class="mb-3">
-      {{teamsform.image(class="form-control", id="exampleFormControlInput1", placeholder="Image")}}
+      {{teamsform.image(class="form-control", id="exampleFormControlInput1", placeholder="Image", value=team.Image)}}
     </div>
     <div class="mb-3">
-        {{teamsform.twitter(class="form-control", id="exampleFormControlInput1", placeholder="Twitter")}}
+        {{teamsform.twitter(class="form-control", id="exampleFormControlInput1", placeholder="Twitter", value=team.TwitterAdress)}}
       </div>
       <div class="mb-3">
-        {{teamsform.facebook(class="form-control", id="exampleFormControlInput1", placeholder="Facebook")}}
+        {{teamsform.facebook(class="form-control", id="exampleFormControlInput1", placeholder="Facebook", value=team.FacebookAdress)}}
       </div>
       <div class="mb-3">
-        {{teamsform.instagram(class="form-control", id="exampleFormControlInput1", placeholder="Instagram")}}
+        {{teamsform.instagram(class="form-control", id="exampleFormControlInput1", placeholder="Instagram", value=team.InstagramAdress)}}
       </div>
       <div class="mb-3">
-        {{teamsform.linkedin(class="form-control", id="exampleFormControlInput1", placeholder="Linkedin")}}
+        {{teamsform.linkedin(class="form-control", id="exampleFormControlInput1", placeholder="Linkedin", value=team.LinkedinAdress)}}
       </div>
       <div class="mb-3">
-        {{teamsform.order(class="form-control", id="exampleFormControlInput1", placeholder="Order")}}
+        {{teamsform.order(class="form-control", id="exampleFormControlInput1", placeholder="Order", value=team.Order)}}
       </div>
     <div class="form-check">
-      {{teamsform.isactive(class="form-check-input", type="checkbox", id="flexCheckDefault")}}
+      {{teamsform.isactive(class="form-check-input", type="checkbox", id="flexCheckDefault", value=team.IsActive)}}
       <label class="form-check-label" for="flexCheckDefault">
         Aktiv olsun
       </label>
