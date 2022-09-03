@@ -1,0 +1,6 @@
+{% extends "auth/layout.html" %}
+
+{% block body %}
+<a href="{{url_for('auth.auth_login')}}" class="btn btn-primary mx-3"> Login</a>
+<a href="{{url_for('auth.auth_register')}}" class="btn btn-primary mx-3"> Register</a>
+{% endblock %}

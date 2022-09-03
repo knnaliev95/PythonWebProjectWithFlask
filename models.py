@@ -77,6 +77,7 @@ class Testimanials(db.Model):
     Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     name=db.Column(db.String(50))
     profession=db.Column(db.String(50))
+    image=db.Column(db.String(50))
     info=db.Column(db.String(150))
 
 class Pricing(db.Model):
@@ -101,3 +102,9 @@ class OurInformations(db.Model):
     location=db.Column(db.String(150))
     email=db.Column(db.String(50))
     phone=db.Column(db.String(50))
+
+class Users(db.Model):
+    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(50))
+    email=db.Column(db.String(50))
+    password=db.Column(db.String(50))

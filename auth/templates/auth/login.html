@@ -1,0 +1,16 @@
+{% extends 'auth/layout.html' %}
+{% block body %}
+    <form action="{{url_for('auth.auth_login')}}" method="POST">
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            {{loginform.email(id='form2Example1', class='form-control', placeholder='Email')}}
+        </div>
+      
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            {{loginform.password(id='form2Example1', class='form-control', placeholder='Password')}}
+        </div>
+      
+        <!-- Submit button -->
+        {{loginform.submit(class='btn btn-primary btn-block mb-4')}}
+{% endblock %}
