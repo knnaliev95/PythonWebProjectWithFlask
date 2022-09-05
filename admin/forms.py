@@ -68,3 +68,28 @@ class PricingForm(FlaskForm):
 class PricingOptionsForm(FlaskForm):
     option=StringField('option')
     submit=SubmitField('Add Option')
+
+class OurInformationsForm(FlaskForm):
+    location=StringField('location')
+    email=EmailField('email')
+    phone=StringField('phone')
+    submit=SubmitField('Add Information')
+
+class TestimonialsForm(FlaskForm):
+    name=StringField('name')
+    profession=StringField('profession')
+    image=FileField('image')
+    info=TextAreaField('info')
+    submit=SubmitField('Add Testimonials')
+
+class FeaturesForm(FlaskForm):
+    name=StringField('name')
+    icon=StringField('icon')
+    image=FileField('image')
+    info=TextAreaField('info')
+    submit=SubmitField('Add Features')
+
+class FeatureOptions(FlaskForm):
+    features_id=IntegerField('features_id')
+    option=StringField('option')
+    submit=SubmitField('Add option')

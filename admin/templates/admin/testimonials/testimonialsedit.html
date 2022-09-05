@@ -1,0 +1,19 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/testimonials/edit/{{testimonial.Id}}" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      {{testimonialsform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name", value=testimonial.name)}}
+    </div>
+    <div class="mb-3">
+      {{testimonialsform.profession(class="form-control", id="exampleFormControlInput1", placeholder="Profession", value=testimonial.profession)}}
+    </div>
+    <div class="mb-3">
+      {{testimonialsform.image(class="form-control", id="exampleFormControlInput1", placeholder="Image")}}
+    </div>
+    <div class="mb-3">
+        {{testimonialsform.info(class="form-control", id="exampleFormControlInput1", placeholder="Info", value=testimonial.info)}}
+    </div>
+    {{testimonialsform.submit(class='btn btn-primary', value='Update Testimonials')}}
+</form>
+    
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/information/edit/{{information.Id}}" method="POST">
+    <div class="mb-3">
+      {{informationform.location(class="form-control", id="exampleFormControlInput1", placeholder="Location", value=information.location)}}
+    </div>
+    <div class="mb-3">
+      {{informationform.email(class="form-control", id="exampleFormControlInput1", placeholder="Email", value=information.email)}}
+    </div>
+    <div class="mb-3">
+      {{informationform.phone(class="form-control", id="exampleFormControlInput1", placeholder="Phone", value=information.phone)}}
+    </div>
+    {{informationform.submit(class='btn btn-primary', value='Update Information')}}
+</form>
+{% endblock %}}

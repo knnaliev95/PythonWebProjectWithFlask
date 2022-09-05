@@ -1,0 +1,40 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/information/add" method="POST">
+    <div class="mb-3">
+      {{informationform.location(class="form-control", id="exampleFormControlInput1", placeholder="Location")}}
+    </div>
+    <div class="mb-3">
+      {{informationform.email(class="form-control", id="exampleFormControlInput1", placeholder="Email")}}
+    </div>
+    <div class="mb-3">
+      {{informationform.phone(class="form-control", id="exampleFormControlInput1", placeholder="Phone")}}
+    </div>
+    {{informationform.submit(class='btn btn-primary')}}
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Location</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for information in informations %}
+    <tr>
+      <td>{{information.Id}}</td>
+      <td>{{information.location}}</td>
+      <td>{{information.email}}</td>
+      <td>{{information.phone}}</td>
+      <td>
+          <a href="/admin/information/delete/{{information.Id}}" class="btn btn-danger">Delete</a>
+          <a href="/admin/information/edit/{{information.Id}}" class="btn btn-primary">Edit</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}}

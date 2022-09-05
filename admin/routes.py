@@ -1,7 +1,7 @@
 from flask import render_template,redirect,request
 from admin import admin_bp
-from models import Clients, FeaturedServices, Messages, NavLinks, TeamImages, Teams, Portfolio, PortfolioCategory,Services,Pricing,PricingOptions
-from admin.forms import MessageForm, NavLinksForm, TeamsForm, PortfolioCategoryForm, PortfolioForm,TeamImagesForm,ClientsForm,FeaturedserviceForm,ServiceForm,PricingForm,PricingOptionsForm
+from models import *
+from admin.forms import *
 import os
 import random
 from werkzeug.utils import secure_filename
@@ -459,3 +459,146 @@ def pricingoption_delete(id):
     db.session.commit()
     return redirect('/admin/pricingoption')
 # pricing option end
+
+# ourInformation start
+@admin_bp.route('/information', methods=['GET','POST'])
+def information():
+    informationform=OurInformationsForm()
+    informations=OurInformations.query.all()
+    return render_template('admin/information/information.html',informationform=informationform,informations=informations)
+
+@admin_bp.route('/information/add', methods=['GET','POST'])
+def information_add():
+    from run import db
+    informationform=OurInformationsForm()
+    if request.method=='POST':
+        information=OurInformations(
+            location=informationform.location.data,
+            email=informationform.email.data,
+            phone=informationform.phone.data
+        )
+        db.session.add(information)
+        db.session.commit()
+        return redirect('/admin/information')
+
+@admin_bp.route('/information/delete/<id>', methods=['GET','POST'])
+def information_delete(id):
+    from run import db
+    information=OurInformations.query.get(id)
+    db.session.delete(information)
+    db.session.commit()
+    return redirect('/admin/information')
+
+@admin_bp.route('/information/edit/<id>', methods=['GET','POST'])
+def information_edit(id):
+    from run import db
+    informationform=OurInformationsForm()
+    information=OurInformations.query.get(id)
+    if request.method=='POST':
+        information.location=informationform.location.data
+        information.email=informationform.email.data
+        information.phone=informationform.phone.data
+        db.session.commit()
+        return redirect('/admin/information')
+    return render_template('admin/information/informationedit.html',informationform=informationform,information=information)
+# ourInformation end
+
+# testimonials start
+@admin_bp.route('/testimonials', methods=['GET','POST'])
+def testimonials():
+    testimonialsform=TestimonialsForm()
+    testimonials=Testimanials.query.all()
+    return render_template('admin/testimonials/testimonials.html',testimonialsform=testimonialsform,testimonials=testimonials)
+
+@admin_bp.route('/testimonials/add', methods=['GET','POST'])
+def testimonials_add():
+    from run import db
+    testimonialsform=TestimonialsForm()
+    if request.method=='POST':
+        file=request.files['image']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Testimonials{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./static/uploads/', new_filename))
+        testimonial=Testimanials(
+            name=testimonialsform.name.data,
+            profession=testimonialsform.profession.data,
+            image=new_filename,
+            info=testimonialsform.info.data
+        )
+        db.session.add(testimonial)
+        db.session.commit()
+        return redirect('/admin/testimonials')
+
+@admin_bp.route('/testimonials/delete/<id>', methods=['GET','POST'])
+def testimonials_delete(id):
+    from run import db
+    testimonial=Testimanials.query.get(id)
+    filename=f"./static/uploads/{testimonial.image}"
+    os.remove(filename)
+    db.session.delete(testimonial)
+    db.session.commit()
+    return redirect('/admin/testimonials')
+
+@admin_bp.route('/testimonials/edit/<id>', methods=['GET','POST'])
+def testimonials_edit(id):
+    from run import db
+    testimonial=Testimanials.query.get(id)
+    testimonialsform=TestimonialsForm()
+    if request.method=='POST':
+        file_name=f"./static/uploads/{testimonial.image}"
+        os.remove(file_name)
+        file=request.files['image']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Testimonials{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./static/uploads/', new_filename))
+        testimonial.name=testimonialsform.name.data
+        testimonial.profession=testimonialsform.profession.data
+        testimonial.image=new_filename
+        testimonial.info=testimonialsform.info.data
+        db.session.commit()
+        return redirect('/admin/testimonials')
+    return render_template('admin/testimonials/testimonialsedit.html',testimonialsform=testimonialsform,testimonial=testimonial)
+# testimonials end
+
+# features start
+@admin_bp.route('/features', methods=['GET','POST'])
+def features():
+    featuresform=FeaturesForm()
+    features=Features.query.all()
+    return render_template('admin/features/features.html',featuresform=featuresform,features=features)
+
+@admin_bp.route('/features/add', methods=['GET','POST'])
+def features_add():
+    from run import db
+    featuresform=FeaturesForm()
+    if request.method=='POST':
+        file=request.files['image']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Features{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./static/uploads/', new_filename))
+        feature=Features(
+            name=featuresform.name.data,
+            icon=featuresform.icon.data,
+            info=featuresform.info.data,
+            image=new_filename
+        )
+        db.session.add(feature)
+        db.session.commit()
+        return redirect('/admin/features')
+    return render_template('admin/features/add',featuresform=featuresform)
+
+@admin_bp.route('/features/delete/<id>', methods=['GET','POST'])
+def features_delete(id):
+    from run import db
+    feature=Features.query.get(id)
+    file_name=f"./static/uploads/{feature.image}"
+    os.remove(file_name)
+    db.session.delete(feature)
+    db.session.commit()
+    return redirect('/admin/features')
+
+
+# features end
