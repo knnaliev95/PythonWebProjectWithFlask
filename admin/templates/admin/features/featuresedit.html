@@ -1,0 +1,22 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/features/edit/{{feature.Id}}" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      {{featuresform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name", value=feature.name)}}
+    </div>
+    <div class="mb-3">
+      {{featuresform.icon(class="form-control my-3", id="exampleFormControlInput1", placeholder="Icon", value=feature.icon)}}
+    </div>
+    <div class="mb-3">
+      {{featuresform.image(class="form-control my-3", id="exampleFormControlInput1", placeholder="Image")}}
+    </div>
+    <div class="mb-3">
+      {{featuresform.info(class="form-control", id="exampleFormControlInput1", placeholder="Info", value=feature.info)}}
+    </div>
+    <div class="mb-3">
+      {{featuresform.order(class="form-control", id="exampleFormControlInput1", placeholder="Info", value=feature.order)}}
+    </div>
+    <div class="mb-3">
+      {{featuresform.submit(class="btn btn-primary", id="exampleFormControlInput1", placeholder="Update Portfolio")}}
+    </div>
+{% endblock %}}

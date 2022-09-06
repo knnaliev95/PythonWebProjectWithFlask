@@ -1,0 +1,15 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/featureoptions/edit/{{feature.Id}}" method="POST">
+  <select name="Featureoptions" class="form-control mb-3">
+    <option value="Feature name">Feature Name</option>
+    {% for featuress in features %}
+      <option value="{{featuress.Id}}">{{featuress.name}}</option>
+    {% endfor %}
+  </select>
+  <div class="mb-3">
+    {{featureoptionsform.option(class="form-control", id="exampleFormControlInput1", placeholder="Option", value=feature.option)}}
+  </div>
+    {{featureoptionsform.submit(class='btn btn-primary', value='Update Option')}}
+</form>
+{% endblock %}}

@@ -1,0 +1,47 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/blog/add" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      {{blogform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name")}}
+    </div>
+    <div class="mb-3">
+      {{blogform.header(class="form-control", id="exampleFormControlInput1", placeholder="Header")}}
+    </div>
+    <div class="mb-3">
+      {{blogform.image(class="form-control", id="exampleFormControlInput1", placeholder="Image")}}
+    </div>
+    <div class="mb-3">
+        {{blogform.content(class="form-control", id="exampleFormControlInput1", placeholder="Content")}}
+    </div>
+    {{blogform.submit(class='btn btn-primary')}}
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Header</th>
+      <th scope="col">Image</th>
+      <th scope="col">Content</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for blog in blogs %}
+    <tr>
+      <td>{{blog.Id}}</td>
+      <td>{{blog.name}}</td>
+      <td>{{blog.header}}</td>
+      <td><img src="/static/uploads/{{blog.image}}" alt="" style="width: 50px; height: 50px; object-fit:cover;"></td>
+      <td>{{blog.content}}</td>
+      <td>
+          <a href="/admin/blog/delete/{{blog.Id}}" class="btn btn-danger">Delete</a>
+          <a href="/admin/blog/edit/{{blog.Id}}" class="btn btn-primary">Edit</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+    
+{% endblock %}

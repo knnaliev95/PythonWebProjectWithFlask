@@ -14,6 +14,9 @@
       {{featuresform.info(class="form-control", id="exampleFormControlInput1", placeholder="Info")}}
     </div>
     <div class="mb-3">
+      {{featuresform.order(class="form-control", id="exampleFormControlInput1", placeholder="Order")}}
+    </div>
+    <div class="mb-3">
       {{featuresform.submit(class="btn btn-primary", id="exampleFormControlInput1", placeholder="Add Portfolio")}}
     </div>
 
@@ -36,12 +39,12 @@
         <th>{{feature.name}}</th>
         <th>{{feature.icon}}</th>
         <th>
-          <img src="/static/uploads/{{feature.img}}" style="width: 50px; height: 50px; object-fit:cover;">
+          <img src="/static/uploads/{{feature.image}}" style="width: 50px; height: 50px; object-fit:cover;">
         </th>
         <th>{{feature.info}}</th>
         <th>
-          <a href="/admin/feature/edit/{{feature.Id}}" class="btn btn-primary">Update</a>
-          <a href="/admin/feature/delete/{{feature.Id}}" class="btn btn-danger">Delete</a>
+          <a href="/admin/features/edit/{{feature.Id}}" class="btn btn-primary">Update</a>
+          <a href="/admin/features/delete/{{feature.Id}}" class="btn btn-danger">Delete</a>
         </th>
       </tr>
     {% endfor %}

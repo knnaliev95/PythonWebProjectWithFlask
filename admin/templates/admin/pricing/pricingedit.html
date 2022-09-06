@@ -1,0 +1,12 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/pricing/edit/{{pricing.Id}}" method="POST">
+    <div class="mb-3">
+      {{pricingform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name", value=pricing.name)}}
+    </div>
+    <div class="mb-3">
+        {{pricingform.amount(class="form-control", id="exampleFormControlInput1", placeholder="Amount", value=pricing.amount)}}
+      </div>
+    {{pricingform.submit(class='btn btn-primary', value='Update Pricing')}}
+</form>
+{% endblock %}}

@@ -406,6 +406,25 @@ def service_delete(id):
     db.session.delete(service)
     db.session.commit()
     return redirect('/admin/service')
+
+@admin_bp.route('/service/edit/<id>', methods=['GET','POST'])
+def service_edit(id):
+    from run import db
+    servicesform=ServiceForm()
+    service=Services.query.get(id)
+    if request.method=='POST':
+        file=request.files['image']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Service{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./static/uploads/', new_filename))
+        service.name=servicesform.name.data
+        service.info=servicesform.info.data
+        service.icon=servicesform.icon.data
+        service.image=new_filename
+        db.session.commit()
+        return redirect('/admin/service')
+    return render_template('admin/service/serviceedit.html',servicesform=servicesform,service=service)
 # service end
 
 # pricing start
@@ -427,6 +446,26 @@ def pricing_add():
         db.session.add(price)
         db.session.commit()
         return redirect('/admin/pricing')
+
+@admin_bp.route('/pricing/delete/<id>', methods=['GET','POST'])
+def pricing_delete(id):
+    from run import db
+    pricing=Pricing.query.get(id)
+    db.session.delete(pricing)
+    db.session.commit()
+    return redirect('/admin/pricing')
+
+@admin_bp.route('/pricing/edit/<id>', methods=['GET','POST'])
+def pricing_edit(id):
+    from run import db
+    pricingform=PricingForm()
+    pricing=Pricing.query.get(id)
+    if request.method=='POST':
+        pricing.name=pricingform.name.data
+        pricing.amount=pricingform.amount.data
+        db.session.commit()
+        return redirect('/admin/pricing')
+    return render_template('admin/pricing/pricingedit.html',pricingform=pricingform,pricing=pricing)
 # pricing end
 
 # pricing option start
@@ -458,6 +497,19 @@ def pricingoption_delete(id):
     db.session.delete(pricingoption)
     db.session.commit()
     return redirect('/admin/pricingoption')
+
+@admin_bp.route('/pricingoption/edit/<id>', methods=['GET','POST'])
+def procongoptions_edit(id):
+    from run import db
+    pricingoptionform=PricingOptionsForm()
+    pricingoption=PricingOptions.query.get(id)
+    pricings=Pricing.query.all()
+    if request.method=='POST':
+        pricingoption.pricing_id=request.form['pricing']
+        pricingoption.option=pricingoptionform.option.data
+        db.session.commit()
+        return redirect('/admin/pricingoption')
+    return render_template('admin/pricing/pricingoptionsedit.html',pricingoptionform=pricingoptionform,pricingoption=pricingoption,pricings=pricings)
 # pricing option end
 
 # ourInformation start
@@ -583,7 +635,8 @@ def features_add():
             name=featuresform.name.data,
             icon=featuresform.icon.data,
             info=featuresform.info.data,
-            image=new_filename
+            image=new_filename,
+            order=featuresform.order.data
         )
         db.session.add(feature)
         db.session.commit()
@@ -600,5 +653,127 @@ def features_delete(id):
     db.session.commit()
     return redirect('/admin/features')
 
-
+@admin_bp.route('/features/edit/<id>', methods=['GET','POST'])
+def features_edit(id):
+    featuresform=FeaturesForm()
+    feature=Features.query.get(id)
+    if request.method=='POST':
+        file_name=f"./static/uploads/{feature.image}"
+        os.remove(file_name)
+        file=request.files['image']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Features{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./static/uploads/', new_filename))
+        feature.name=featuresform.name.data
+        feature.icon=featuresform.icon.data
+        feature.info=featuresform.info.data
+        feature.image=new_filename
+        feature.order=featuresform.order.data
+        db.session.commit()
+        return redirect('/admin/features')
+    return render_template('admin/features/featuresedit.html',featuresform=featuresform,feature=feature)
 # features end
+
+# features option start
+@admin_bp.route('/featureoptions', methods=['GET','POST'])
+def featureoptions():
+    from models import Features
+    featureoptionsform=FeatureOptionsForm()
+    featureoptions=FeatureOptions.query.all()
+    features=Features.query.all()
+    return render_template('admin/features/featureoptions.html',featureoptionsform=featureoptionsform,featureoptions=featureoptions,features=features,data=Features)
+
+@admin_bp.route('/featureoptions/add', methods=['GET','POST'])
+def featureoptions_add():
+    from run import db
+    featureoptionsform=FeatureOptionsForm()
+    if request.method=='POST':
+        featureoption=FeatureOptions(
+            features_id=request.form['Featureoptions'],
+            option=featureoptionsform.option.data
+        )
+        db.session.add(featureoption)
+        db.session.commit()
+        return redirect('/admin/featureoptions')
+
+@admin_bp.route('/featureoptions/delete/<id>', methods=['GET','POST'])
+def featureoptions_delete(id):
+    from run import db
+    featureoption=FeatureOptions.query.get(id)
+    db.session.delete(featureoption)
+    db.session.commit()
+    return redirect('/admin/featureoptions')
+
+@admin_bp.route('/featureoptions/edit/<id>', methods=['GET','POST'])
+def featureoptions_edit(id):
+    from run import db
+    featureoptionsform=FeatureOptionsForm()
+    feature=Features.query.get(id)
+    features=Features.query.all()
+    if request.method=='POST':
+        feature.features_id=request.form['Featureoptions']
+        feature.option=featureoptionsform.option.data
+        db.session.commit()
+        return redirect('/admin/featureoptions')
+    return render_template('admin/features/featureoptionsedit.html',featureoptionsform=featureoptionsform,feature=feature,features=features)
+# features option end
+
+# blogs start
+@admin_bp.route('/blog', methods=['GET','POST'])
+def blog():
+    blogform=BlogForm()
+    blogs=Blogs.query.all()
+    return render_template('admin/blog/blog.html',blogform=blogform,blogs=blogs)
+
+@admin_bp.route('/blog/add', methods=['GET','POST'])
+def blog_add():
+    blogform=BlogForm()
+    from run import db
+    if request.method=='POST':
+        file=request.files['image']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Blog{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./static/uploads/', new_filename))
+        blog=Blogs(
+            name=blogform.name.data,
+            header=blogform.header.data,
+            image=new_filename,
+            content=blogform.content.data
+        )
+        db.session.add(blog)
+        db.session.commit()
+        return redirect('/admin/blog')
+
+@admin_bp.route('/blog/delete/<id>',methods=['GET','POST'])
+def blog_delete(id):
+    from run import db
+    blog=Blogs.query.get(id)
+    file_name=f"./static/uploads/{blog.image}"
+    os.remove(file_name)
+    db.session.delete(blog)
+    db.session.commit()
+    return redirect('/admin/blog')
+
+@admin_bp.route('/blog/edit/<id>', methods=['GET','POST'])
+def blog_edit(id):
+    from run import db
+    blogform=BlogForm()
+    blog=Blogs.query.get(id)
+    if request.method=='POST':
+        file_name=f"./static/uploads/{blog.image}"
+        os.remove(file_name)
+        file=request.files['image']
+        filename=secure_filename(file.filename)
+        extension=filename.rsplit('.',1)[1]
+        new_filename=f'Blog{random.randint(1,2000)}.{extension}'
+        file.save(os.path.join('./static/uploads/', new_filename))
+        blog.name=blogform.name.data
+        blog.header=blogform.header.data
+        blog.image=new_filename
+        blog.content=blogform.content.data
+        db.session.commit()
+        return redirect('/admin/blog')
+    return render_template('admin/blog/blogedit.html',blogform=blogform,blog=blog)
+# blogs end

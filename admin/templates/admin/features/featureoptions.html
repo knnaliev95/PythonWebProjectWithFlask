@@ -1,27 +1,35 @@
 {% extends 'admin/layout.html' %}
 {% block body %}
-<form action="/admin/portfoliocategory/add" method="POST">
-    <div class="mb-3">
-      {{portfoliocategoryform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name")}}
-    </div>
-    {{portfoliocategoryform.submit(class='btn btn-primary')}}
+<form action="/admin/featureoptions/add" method="POST">
+  <select name="Featureoptions" class="form-control mb-3">
+    <option value="Feature name">Feature Name</option>
+    {% for feature in features %}
+      <option value="{{feature.Id}}">{{feature.name}}</option>
+    {% endfor %}
+  </select>
+  <div class="mb-3">
+    {{featureoptionsform.option(class="form-control", id="exampleFormControlInput1", placeholder="Option")}}
+  </div>
+    {{featureoptionsform.submit(class='btn btn-primary')}}
 </form>
 <table class="table">
   <thead>
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Name</th>
+      <th scope="col">Option</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
-      {% for categorie in categories %}
+      {% for feature in featureoptions %}
     <tr>
-      <td>{{categorie.Id}}</td>
-      <td>{{categorie.name}}</td>
+      <td>{{feature.Id}}</td>
+      <td>{{data.query.filter_by(Id=feature.features_id).first().name}}</td>
+      <td>{{feature.option}}</td>
       <td>
-          <a href="/admin/portfoliocategory/delete/{{categorie.Id}}" class="btn btn-danger">Delete</a>
-          <a href="/admin/portfoliocategory/edit/{{categorie.Id}}" class="btn btn-primary">Edit</a>
+          <a href="/admin/featureoptions/delete/{{feature.Id}}" class="btn btn-danger">Delete</a>
+          <a href="/admin/featureoptions/edit/{{feature.Id}}" class="btn btn-primary">Edit</a>
       </td>
     </tr>
     {% endfor %}

@@ -1,0 +1,19 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<form action="/admin/blog/edit/{{blog.Id}}" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      {{blogform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name", value=blog.name)}}
+    </div>
+    <div class="mb-3">
+      {{blogform.header(class="form-control", id="exampleFormControlInput1", placeholder="Header", value=blog.header)}}
+    </div>
+    <div class="mb-3">
+      {{blogform.image(class="form-control", id="exampleFormControlInput1", placeholder="Image")}}
+    </div>
+    <div class="mb-3">
+        {{blogform.content(class="form-control", id="exampleFormControlInput1", placeholder="Content", value=blog.content)}}
+    </div>
+    {{blogform.submit(class='btn btn-primary', value='Update Blog')}}
+</form>
+    
+{% endblock %}

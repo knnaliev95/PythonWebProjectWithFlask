@@ -86,7 +86,7 @@
 
   <main id="main">
 
-    <!-- ======= Featured Services Section ======= -->
+    <!-- ======= Featured Services Section ///// ++ //// ======= -->
     <section id="featured-services" class="featured-services">
       <div class="container">
 
@@ -217,7 +217,7 @@
       </div>
     </section><!-- End About Section -->
 
-    <!-- ======= Clients Section ======= -->
+    <!-- ======= Clients Section ///// ++ //// ======= -->
     <section id="clients" class="clients">
       <div class="container" data-aos="zoom-out">
 
@@ -493,7 +493,7 @@
       </div>
     </section><!-- End Features Section -->
 
-    <!-- ======= Services Section ======= -->
+    <!-- ======= Services Section ///// +++ //// ======= -->
     <section id="services" class="services">
       <div class="container" data-aos="fade-up">
 
@@ -528,93 +528,30 @@
       </div>
     </section><!-- End Services Section -->
 
-    <!-- ======= Testimonials Section ======= -->
+    <!-- ======= Testimonials Section ///// +++ //// ======= -->
     <section id="testimonials" class="testimonials">
       <div class="container" data-aos="fade-up">
 
         <div class="testimonials-slider swiper">
           <div class="swiper-wrapper">
-
+            {% for testimonial in testimonials %}
             <div class="swiper-slide">
               <div class="testimonial-item">
-                <img src="./peoples/static/assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-                <h3>Saul Goodman</h3>
-                <h4>Ceo &amp; Founder</h4>
+                <img src="/static/uploads/{{testimonial.image}}" class="testimonial-img" alt="">
+                <h3>{{testimonial.name}}</h3>
+                <h4>{{testimonial.profession}}</h4>
                 <div class="stars">
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                 </div>
                 <p>
                   <i class="bi bi-quote quote-icon-left"></i>
-                  Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
+                  {{testimonial.info}}
                   <i class="bi bi-quote quote-icon-right"></i>
                 </p>
               </div>
+            {% endfor %}
+            
             </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="./peoples/static/assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                <h3>Sara Wilsson</h3>
-                <h4>Designer</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="./peoples/static/assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                <h3>Jena Karlis</h3>
-                <h4>Store Owner</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="./peoples/static/assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                <h3>Matt Brandon</h3>
-                <h4>Freelancer</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="./peoples/static/assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-                <h3>John Larson</h3>
-                <h4>Entrepreneur</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
           </div>
           <div class="swiper-pagination"></div>
         </div>
@@ -625,36 +562,30 @@
     <!-- ======= Pricing Section ======= -->
     <section id="pricing" class="pricing">
       <div class="container" data-aos="fade-up">
-
         <div class="section-header">
           <h2>Our Pricing</h2>
           <p>Architecto nobis eos vel nam quidem vitae temporibus voluptates qui hic deserunt iusto omnis nam voluptas asperiores sequi tenetur dolores incidunt enim voluptatem magnam cumque fuga.</p>
         </div>
-
-        <div class="row gy-4">
-          {% for pricing in pricings %}
+      {% for pricing in pricings %}
+        <div class="row gy-4"> 
           <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">
             <div class="pricing-item">
-
               <div class="pricing-header">
                 <h3>{{pricing.name}}</h3>
                 <h4><sup>$</sup>{{pricing.amount}}<span> / month</span></h4>
               </div>
                 <ul>
-                  <li><i class="bi bi-dot"></i> <span>{{PricingOptions.query.filter_by(pricing_id=pricing.name).all().option}}</span></li>
+                  {% for pricingoption in pricingoptions.query.filter_by(pricing_id=pricing.Id).all() %}
+                  <li><i class="bi bi-dot"></i>{{pricingoption.option}}<span></span></li>
+                  {% endfor %}  
                 </ul>
-              
-
               <div class="text-center mt-auto">
                 <a href="#" class="buy-btn">Buy Now</a>
               </div>
-
             </div>
-          </div><!-- End Pricing Item -->
-          {% endfor %}
-
+          </div><!-- End Pricing Item -->          
         </div>
-
+      {% endfor %}
       </div>
     </section><!-- End Pricing Section -->
 
@@ -756,7 +687,7 @@
       </div>
     </section><!-- End F.A.Q Section -->
 
-    <!-- ======= Portfolio Section ======= -->
+    <!-- ======= Portfolio Section ///// ++ //// ======= -->
     <section id="portfolio" class="portfolio" data-aos="fade-up">
 
       <div class="container">
@@ -800,7 +731,7 @@
       </div>
     </section><!-- End Portfolio Section -->
 
-    <!-- ======= Team Section ======= -->
+    <!-- ======= Team Section ///// ++ //// ======= -->
     <section id="team" class="team">
       <div class="container" data-aos="fade-up">
 

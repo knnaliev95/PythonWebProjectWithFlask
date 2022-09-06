@@ -87,9 +87,17 @@ class FeaturesForm(FlaskForm):
     icon=StringField('icon')
     image=FileField('image')
     info=TextAreaField('info')
+    order=IntegerField('order')
     submit=SubmitField('Add Features')
 
-class FeatureOptions(FlaskForm):
+class FeatureOptionsForm(FlaskForm):
     features_id=IntegerField('features_id')
     option=StringField('option')
     submit=SubmitField('Add option')
+
+class BlogForm(FlaskForm):
+    name=StringField('name')
+    header=StringField('header')
+    image=FileField('image')
+    content=TextAreaField('content')
+    submit=SubmitField('Add Blog')

@@ -59,6 +59,7 @@ class Features(db.Model):
     icon=db.Column(db.String(50))
     info=db.Column(db.String(250))
     image=db.Column(db.String(50))
+    order=db.Column(db.Integer)
     options=db.relationship('FeatureOptions', backref='feature_options', lazy=True)
 
 class FeatureOptions(db.Model):
@@ -95,7 +96,8 @@ class Blogs(db.Model):
     Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     name=db.Column(db.String(50))
     header=db.Column(db.String(150))
-    info=db.Column(db.String(250))
+    image=db.Column(db.String(50))
+    content=db.Column(db.String(250))
 
 class OurInformations(db.Model):
     Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
