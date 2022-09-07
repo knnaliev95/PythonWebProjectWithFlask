@@ -5,6 +5,7 @@ from peoples import peoples_bp
 def peoples_index():
     from run import db
     from models import Teams,Portfolio,PortfolioCategory,Clients,FeaturedServices,Services,Pricing,PricingOptions,NavLinks,Testimanials
+    from models import Features,FeatureOptions,Blogs,OurInformations
     from admin.forms import MessageForm
     messageForm=MessageForm()
     navlinks=NavLinks.query.all()
@@ -16,4 +17,7 @@ def peoples_index():
     services=Services.query.all()
     pricings=Pricing.query.all()
     testimonials=Testimanials.query.all()
-    return render_template('peoples/index.html',messageForm=messageForm, navlinks=navlinks, teams=teams,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory,clients=clients,featuredservices=featuredservices,services=services,pricings=pricings,pricingoptions=PricingOptions,testimonials=testimonials)
+    features=Features.query.order_by(Features.order)
+    blogs=Blogs.query.all()
+    information=OurInformations.query.first()
+    return render_template('peoples/index.html',messageForm=messageForm, navlinks=navlinks, teams=teams,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory,clients=clients,featuredservices=featuredservices,services=services,pricings=pricings,pricingoptions=PricingOptions,testimonials=testimonials,features=features,FeatureOptions=FeatureOptions,blogs=blogs,information=information)
