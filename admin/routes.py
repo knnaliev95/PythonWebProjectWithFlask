@@ -132,19 +132,22 @@ def teams_edit(id):
     team=Teams.query.get(id)
     teamsform=TeamsForm()
     if request.method=='POST':
-        file=request.files['image']
-        filename=secure_filename(file.filename)
-        extension=filename.rsplit('.',1)[1]
-        new_filename=f'Teams{random.randint(1,2000)}.{extension}'
-        file.save(os.path.join('./static/uploads/', new_filename))
-        team.Name=teamsform.name.data,
-        team.Profession=teamsform.profession.data,
-        team.Image=new_filename,
-        team.TwitterAdress=teamsform.twitter.data,
-        team.FacebookAdress=teamsform.facebook.data,
-        team.InstagramAdress=teamsform.instagram.data,
-        team.LinkedinAdress=teamsform.linkedin.data,
-        team.Order=teamsform.order.data,
+        if request.files['image']:
+            file_name=f"./static/uploads/{team.Image}"
+            os.remove(file_name)
+            file=request.files['image']
+            filename=secure_filename(file.filename)
+            extension=filename.rsplit('.',1)[1]
+            new_filename=f'Teams{random.randint(1,2000)}.{extension}'
+            file.save(os.path.join('./static/uploads/', new_filename))
+            team.Image=new_filename
+        team.Name=teamsform.name.data
+        team.Profession=teamsform.profession.data
+        team.TwitterAdress=teamsform.twitter.data
+        team.FacebookAdress=teamsform.facebook.data
+        team.InstagramAdress=teamsform.instagram.data
+        team.LinkedinAdress=teamsform.linkedin.data
+        team.Order=teamsform.order.data
         team.IsActive=teamsform.isactive.data
         db.session.commit()
     return render_template('admin/teams/teamsedit.html',team=team, teamsform=teamsform)
@@ -279,14 +282,17 @@ def portfolio_edit(id):
     categories=PortfolioCategory.query.all()
     portfolio=Portfolio.query.get(id)
     if request.method=='POST':
-        file=request.files['img']
-        filename=secure_filename(file.filename)
-        extension=filename.rsplit('.',1)[1]
-        new_filename=f'Portfolio{random.randint(1,2000)}.{extension}'
-        file.save(os.path.join('./static/uploads/', new_filename))
-        portfolio.name=portfolioform.name.data,
-        portfolio.Category_id=request.form['Category'],
-        portfolio.img=new_filename,
+        if request.files['img']:
+            file_name=f"./static/uploads/{portfolio.img}"
+            os.remove(file_name)
+            file=request.files['img']
+            filename=secure_filename(file.filename)
+            extension=filename.rsplit('.',1)[1]
+            new_filename=f'Portfolio{random.randint(1,2000)}.{extension}'
+            file.save(os.path.join('./static/uploads/', new_filename))
+            portfolio.img=new_filename
+        portfolio.name=portfolioform.name.data
+        portfolio.Category_id=request.form['Category']
         portfolio.info=portfolioform.info.data
         db.session.commit()
         return redirect('/admin/portfolio')
@@ -413,15 +419,18 @@ def service_edit(id):
     servicesform=ServiceForm()
     service=Services.query.get(id)
     if request.method=='POST':
-        file=request.files['image']
-        filename=secure_filename(file.filename)
-        extension=filename.rsplit('.',1)[1]
-        new_filename=f'Service{random.randint(1,2000)}.{extension}'
-        file.save(os.path.join('./static/uploads/', new_filename))
+        if request.files['image']:
+            file_name=f"./static/uploads/{service.image}"
+            os.remove(file_name)
+            file=request.files['image']
+            filename=secure_filename(file.filename)
+            extension=filename.rsplit('.',1)[1]
+            new_filename=f'Service{random.randint(1,2000)}.{extension}'
+            file.save(os.path.join('./static/uploads/', new_filename))
+            service.image=new_filename
         service.name=servicesform.name.data
         service.info=servicesform.info.data
         service.icon=servicesform.icon.data
-        service.image=new_filename
         db.session.commit()
         return redirect('/admin/service')
     return render_template('admin/service/serviceedit.html',servicesform=servicesform,service=service)
@@ -598,16 +607,17 @@ def testimonials_edit(id):
     testimonial=Testimanials.query.get(id)
     testimonialsform=TestimonialsForm()
     if request.method=='POST':
-        file_name=f"./static/uploads/{testimonial.image}"
-        os.remove(file_name)
-        file=request.files['image']
-        filename=secure_filename(file.filename)
-        extension=filename.rsplit('.',1)[1]
-        new_filename=f'Testimonials{random.randint(1,2000)}.{extension}'
-        file.save(os.path.join('./static/uploads/', new_filename))
+        if request.files['image']:
+            file_name=f"./static/uploads/{testimonial.image}"
+            os.remove(file_name)
+            file=request.files['image']
+            filename=secure_filename(file.filename)
+            extension=filename.rsplit('.',1)[1]
+            new_filename=f'Testimonials{random.randint(1,2000)}.{extension}'
+            file.save(os.path.join('./static/uploads/', new_filename))
+            testimonial.image=new_filename
         testimonial.name=testimonialsform.name.data
         testimonial.profession=testimonialsform.profession.data
-        testimonial.image=new_filename
         testimonial.info=testimonialsform.info.data
         db.session.commit()
         return redirect('/admin/testimonials')
@@ -658,17 +668,18 @@ def features_edit(id):
     featuresform=FeaturesForm()
     feature=Features.query.get(id)
     if request.method=='POST':
-        file_name=f"./static/uploads/{feature.image}"
-        os.remove(file_name)
-        file=request.files['image']
-        filename=secure_filename(file.filename)
-        extension=filename.rsplit('.',1)[1]
-        new_filename=f'Features{random.randint(1,2000)}.{extension}'
-        file.save(os.path.join('./static/uploads/', new_filename))
+        if request.files['image']:
+            file_name=f"./static/uploads/{feature.image}"
+            os.remove(file_name)
+            file=request.files['image']
+            filename=secure_filename(file.filename)
+            extension=filename.rsplit('.',1)[1]
+            new_filename=f'Features{random.randint(1,2000)}.{extension}'
+            file.save(os.path.join('./static/uploads/', new_filename))
+            feature.image=new_filename
         feature.name=featuresform.name.data
         feature.icon=featuresform.icon.data
         feature.info=featuresform.info.data
-        feature.image=new_filename
         feature.order=featuresform.order.data
         db.session.commit()
         return redirect('/admin/features')
@@ -762,16 +773,17 @@ def blog_edit(id):
     blogform=BlogForm()
     blog=Blogs.query.get(id)
     if request.method=='POST':
-        file_name=f"./static/uploads/{blog.image}"
-        os.remove(file_name)
-        file=request.files['image']
-        filename=secure_filename(file.filename)
-        extension=filename.rsplit('.',1)[1]
-        new_filename=f'Blog{random.randint(1,2000)}.{extension}'
-        file.save(os.path.join('./static/uploads/', new_filename))
+        if request.files['image']:
+            file_name=f"./static/uploads/{blog.image}"
+            os.remove(file_name)
+            file=request.files['image']
+            filename=secure_filename(file.filename)
+            extension=filename.rsplit('.',1)[1]
+            new_filename=f'Blog{random.randint(1,2000)}.{extension}'
+            file.save(os.path.join('./static/uploads/', new_filename))
+            blog.image=new_filename
         blog.name=blogform.name.data
         blog.header=blogform.header.data
-        blog.image=new_filename
         blog.content=blogform.content.data
         db.session.commit()
         return redirect('/admin/blog')
