@@ -287,42 +287,73 @@
 
     <!-- ======= Features Section ======= -->
     <section id="features" class="features">
-      
       <div class="container" data-aos="fade-up">
-        
+
         <ul class="nav nav-tabs row gy-4 d-flex">
+
+          <li class="nav-item col-6 col-md-4 col-lg-2">
+            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#tab-{{featuresOne.Id}}">
+              <i class="{{featuresOne.icon}}"></i>
+              <h4>{{featuresOne.name}}</h4>
+            </a>
+          </li><!-- End Tab 1 Nav -->
           {% for feature in features %}
           <li class="nav-item col-6 col-md-4 col-lg-2">
-            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#tab-{{feature.order}}">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-{{feature.Id}}">
               <i class="{{feature.icon}}"></i>
               <h4>{{feature.name}}</h4>
             </a>
-          </li><!-- End Tab 1 Nav -->
+          </li><!-- End Tab 2 Nav -->
+          {% endfor %}
+          
+
         </ul>
+
         <div class="tab-content">
-          <div class="tab-pane active show" id="tab-{{feature.order}}">
+
+          <div class="tab-pane active show" id="tab-{{FeatureOtionsOne.features_id}}">
             <div class="row gy-4">
               <div class="col-lg-8 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
-                <h3>{{feature.name}}</h3>
+                <h3>{{FeatuersModel.query.filter_by(Id=FeatureOtionsOne.features_id).first().name}}</h3>
                 <p class="fst-italic">
-                  {{feature.info}}
+                  {{FeatuersModel.query.filter_by(Id=FeatureOtionsOne.features_id).first().info}}
                 </p>
                 <ul>
-                  {% for option in FeatureOptions.query.filter_by(features_id=feature.Id).all() %}
-                  <li><i class="bi bi-check-circle-fill"></i>{{option.option}}</li>
+                  {% for FeatureOne in FeatureOptions.query.filter_by(features_id=1).all() %}
+                  <li><i class="bi bi-check-circle-fill"></i>{{FeatureOne.option}}</li>
                   {% endfor %}
+                  
                 </ul>
               </div>
               <div class="col-lg-4 order-1 order-lg-2 text-center" data-aos="fade-up" data-aos-delay="200">
-                <img src="/static/uploads/{{feature.image}}" alt="" class="img-fluid">
+                <img src="/static/uploads/{{FeatuersModel.query.filter_by(Id=FeatureOtionsOne.features_id).first().image}}" alt="" class="img-fluid">
               </div>
             </div>
-            {% endfor %}
           </div><!-- End Tab Content 1 -->
           
-          
+          {% for FeatureOptionall in FeatureOptionsAll %}
+          <div class="tab-pane" id="tab-{{FeatureOptionall.Id}}">
+            <div class="row gy-4">
+              <div class="col-lg-8 order-2 order-lg-1">
+                <h3>{{FeatuersModel.query.filter_by(Id=FeatureOptionall.Id).first().name}}</h3>
+                <p class="fst-italic">
+                  {{FeatuersModel.query.filter_by(Id=FeatureOptionall.Id).first().info}}
+                </p>
+                <ul>
+                  {% for Options in FeatureOptions.query.filter_by(features_id=FeatureOptionall.Id).all() %}
+                  <li><i class="bi bi-check-circle-fill"></i>{{Options.option}}</li>
+                  {% endfor %}
+                  
+                </ul>
+              </div>
+              <div class="col-lg-4 order-1 order-lg-2 text-center">
+                <img src="/static/uploads/{{FeatuersModel.query.filter_by(Id=FeatureOptionall.Id).first().image}}" alt="" class="img-fluid">
+              </div>
+            </div>
+          </div><!-- End Tab Content 2 --> 
+          {% endfor %}
+
         </div>
-        
 
       </div>
     </section><!-- End Features Section -->

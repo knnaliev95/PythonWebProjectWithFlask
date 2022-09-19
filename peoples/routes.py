@@ -7,17 +7,26 @@ def peoples_index():
     from models import Teams,Portfolio,PortfolioCategory,Clients,FeaturedServices,Services,Pricing,PricingOptions,NavLinks,Testimanials
     from models import Features,FeatureOptions,Blogs,OurInformations
     from admin.forms import MessageForm
-    messageForm=MessageForm()
-    navlinks=NavLinks.query.all()
-    teams=Teams.query.filter_by(IsActive=True).order_by(Teams.Order)
-    portfolios=Portfolio.query.all()
-    categories=PortfolioCategory.query.all()
-    clients=Clients.query.all()
-    featuredservices=FeaturedServices.query.all()
-    services=Services.query.all()
-    pricings=Pricing.query.all()
-    testimonials=Testimanials.query.all()
-    features=Features.query.order_by(Features.order)
-    blogs=Blogs.query.all()
-    information=OurInformations.query.first()
-    return render_template('peoples/index.html',messageForm=messageForm, navlinks=navlinks, teams=teams,portfolios=portfolios,categories=categories,PortfolioCategory=PortfolioCategory,clients=clients,featuredservices=featuredservices,services=services,pricings=pricings,pricingoptions=PricingOptions,testimonials=testimonials,features=features,FeatureOptions=FeatureOptions,blogs=blogs,information=information)
+    context={
+        'navlinks':NavLinks.query.all(),
+        'teams':Teams.query.filter_by(IsActive=True).order_by(Teams.Order),
+        'portfolios':Portfolio.query.all(),
+        'categories':PortfolioCategory.query.all(),
+        'clients':Clients.query.all(),
+        'featuredservices':FeaturedServices.query.all(),
+        'services':Services.query.all(),
+        'pricings':Pricing.query.all(),
+        'testimonials':Testimanials.query.all(),
+        'featuresOne':Features.query.filter_by(order=1).first(),
+        'features':Features.query.order_by(Features.order).all()[1:],
+        'FeatureOtionsOne':FeatureOptions.query.filter_by(features_id=1).first(),
+        'FeatureOptionsAll':FeatureOptions.query.all()[1:],
+        'FeatureOptions':FeatureOptions,
+        'FeatuersModel':Features,
+        'blogs':Blogs.query.all(),
+        'information':OurInformations.query.first(),
+        'messageForm':MessageForm(),
+        'PortfolioCategory':PortfolioCategory,
+        'pricingoptions':PricingOptions    
+    }
+    return render_template('peoples/index.html',**context)
