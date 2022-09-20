@@ -19,7 +19,7 @@ def peoples_index():
         'testimonials':Testimanials.query.all(),
         'featuresOne':Features.query.filter_by(order=1).first(),
         'features':Features.query.order_by(Features.order).all()[1:],
-        'FeatureOtionsOne':FeatureOptions.query.filter_by(features_id=1).first(),
+        'FeatureOtionsOne':FeatureOptions.query.filter_by(features_id=Features.query.filter_by(order=1).first().Id).first(),
         'FeatureOptionsAll':FeatureOptions.query.all()[1:],
         'FeatureOptions':FeatureOptions,
         'FeatuersModel':Features,
