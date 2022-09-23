@@ -24,9 +24,10 @@ def featuredservice_add():
 def featuredservice_delete(id):
     from run import db
     featuredservice=FeaturedServices.query.get(id)
-    db.session.delete(featuredservice)
-    db.session.commit()
-    return redirect('/admin/featuredservice')
+    if request.method=='POST':
+        db.session.delete(featuredservice)
+        db.session.commit()
+        return redirect('/admin/featuredservice')
 
 @admin_bp.route('/featuredservice/edit/<id>', methods=['GET','POST'])
 def featuredservice_edit(id):

@@ -24,6 +24,7 @@ def message_add():
 def message_delete(id):
     from run import db
     message=Messages.query.get(id)
-    db.session.delete(message)
-    db.session.commit()
-    return redirect('/admin/messages')
+    if request.method=='POST':
+        db.session.delete(message)
+        db.session.commit()
+        return redirect('/admin/messages')

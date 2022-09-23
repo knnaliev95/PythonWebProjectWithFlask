@@ -1,6 +1,7 @@
 from flask import render_template,redirect,request
 from auth import auth_bp
 from auth.forms import *
+from flask_login import login_user, logout_user, login_required, current_user
 
 @auth_bp.route('/', methods=['GET','POST'])
 def auth():
@@ -28,8 +29,9 @@ def auth_login():
     from models import Users
     if request.method=='POST':
         user=Users.query.filter_by(email=loginform.email.data).first()
-        if bool(user)==True:
+        if user:
             if user.password==loginform.password.data:
+                login_user(user)
                 return redirect('/admin')
         else:
             return redirect('/auth/login')
@@ -37,4 +39,5 @@ def auth_login():
 
 @auth_bp.route('/logout', methods=['GET','POST'])
 def auth_logout():
+    logout_user()
     return redirect('/auth/login')

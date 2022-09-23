@@ -1,4 +1,5 @@
 from run import db
+from flask_login import UserMixin
 
 class Messages(db.Model):
     Id=db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -105,8 +106,8 @@ class OurInformations(db.Model):
     email=db.Column(db.String(50))
     phone=db.Column(db.String(50))
 
-class Users(db.Model):
-    Id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+class Users(UserMixin,db.Model):
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     name=db.Column(db.String(50))
     email=db.Column(db.String(50))
     password=db.Column(db.String(50))

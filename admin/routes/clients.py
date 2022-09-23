@@ -26,8 +26,9 @@ def clients_add():
 def clients_delete(id):
     from run import db
     client=Clients.query.get(id)
-    filename=f"./static/uploads/{client.image}"
-    os.remove(filename)
-    db.session.delete(client)
-    db.session.commit()
-    return redirect('/admin/clients')
+    if request.method=='POST':
+        filename=f"./static/uploads/{client.image}"
+        os.remove(filename)
+        db.session.delete(client)
+        db.session.commit()
+        return redirect('/admin/clients')

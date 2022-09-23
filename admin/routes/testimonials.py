@@ -30,11 +30,12 @@ def testimonials_add():
 def testimonials_delete(id):
     from run import db
     testimonial=Testimanials.query.get(id)
-    filename=f"./static/uploads/{testimonial.image}"
-    os.remove(filename)
-    db.session.delete(testimonial)
-    db.session.commit()
-    return redirect('/admin/testimonials')
+    if request.method=='POST':
+        filename=f"./static/uploads/{testimonial.image}"
+        os.remove(filename)
+        db.session.delete(testimonial)
+        db.session.commit()
+        return redirect('/admin/testimonials')
 
 @admin_bp.route('/testimonials/edit/<id>', methods=['GET','POST'])
 def testimonials_edit(id):
