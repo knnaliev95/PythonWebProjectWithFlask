@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,EmailField,TextAreaField,SubmitField,URLField,IntegerField,BooleanField,FileField
+from flask_ckeditor import CKEditorField
 
 class MessageForm(FlaskForm):
     name=StringField('name')
@@ -99,5 +100,5 @@ class BlogForm(FlaskForm):
     name=StringField('name')
     header=StringField('header')
     image=FileField('image')
-    content=TextAreaField('content')
+    content=CKEditorField('content')
     submit=SubmitField('Add Blog')

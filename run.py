@@ -2,14 +2,17 @@ from flask import Flask,render_template,redirect,url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_ckeditor import CKEditor
 
 
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
 db=SQLAlchemy(app)
 app.config['SECRET_KEY']='secretkey'
+app.config['CKEDITOR_PKG_TYPE'] = 'standart'
 migrate=Migrate(app,db)
 login_manager=LoginManager(app)
+ckeditor=CKEditor(app)
 
 
 from admin.routes import *

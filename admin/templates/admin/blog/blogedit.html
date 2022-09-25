@@ -1,6 +1,7 @@
 {% extends 'admin/layout.html' %}
 {% block body %}
 <form action="/admin/blog/edit/{{blog.Id}}" method="POST" enctype="multipart/form-data">
+    {{ckeditor.load()}}
     <div class="mb-3">
       {{blogform.name(class="form-control", id="exampleFormControlInput1", placeholder="Name", value=blog.name)}}
     </div>
@@ -11,7 +12,7 @@
       {{blogform.image(class="form-control", id="exampleFormControlInput1", placeholder="Image")}}
     </div>
     <div class="mb-3">
-        {{blogform.content(class="form-control", id="exampleFormControlInput1", placeholder="Content", value=blog.content)}}
+        {{blogform.content(class="form-control", id="exampleFormControlInput1", placeholder="Content", value=blog.content | safe)}}
     </div>
     {{blogform.submit(class='btn btn-primary', value='Update Blog')}}
 </form>
