@@ -30,12 +30,11 @@ def blog_add():
 def blog_delete(id):
     from run import db
     blog=Blogs.query.get(id)
-    if request.method=='POST':
-        file_name=f"./static/uploads/{blog.image}"
-        os.remove(file_name)
-        db.session.delete(blog)
-        db.session.commit()
-        return redirect('/admin/blog')
+    file_name=f"./static/uploads/{blog.image}"
+    os.remove(file_name)
+    db.session.delete(blog)
+    db.session.commit()
+    return redirect('/admin/blog')
 
 @admin_bp.route('/blog/edit/<id>', methods=['GET','POST'])
 def blog_edit(id):
