@@ -1,0 +1,41 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Group</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for user in users %}
+    <tr>
+      <td>{{user.id}}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.group}}</td>
+      {% if user.is_autorized %}
+        
+      {% endif %}
+      {% if user.is_autorized %}
+      <td>Active</td>
+      <td>
+          <a href="/admin/users/edit/{{user.id}}" class="btn btn-primary">Deactivate</a>
+          <a href="/admin/users/delete/{{user.id}}" class="btn btn-danger">Delete</a>
+      </td>
+      {% else %}
+      <td>Deactivate</td>
+      <td>
+          <a href="/admin/users/edit/{{user.id}}" class="btn btn-primary">Activate</a>
+          <a href="/admin/users/delete/{{user.id}}" class="btn btn-danger">Delete</a>
+      </td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}}

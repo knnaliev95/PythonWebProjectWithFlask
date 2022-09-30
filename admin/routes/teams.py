@@ -35,12 +35,11 @@ def teams_add():
 def teams_delete(id):
     from run import db
     team=Teams.query.get(id)
-    if request.method=='POST':
-        filename=f"./static/uploads/{team.Image}"
-        os.remove(filename)
-        db.session.delete(team)
-        db.session.commit()
-        return redirect('/admin/teams')
+    filename=f"./static/uploads/{team.Image}"
+    os.remove(filename)
+    db.session.delete(team)
+    db.session.commit()
+    return redirect('/admin/teams')
 
 @admin_bp.route('/teams/edit/<id>', methods=['GET','POST'])
 def teams_edit(id):

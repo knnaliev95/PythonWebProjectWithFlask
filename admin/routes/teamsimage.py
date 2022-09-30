@@ -35,9 +35,8 @@ def teamsimage_add():
 def teamsimage_delete(id):
     from run import db
     image=TeamImages.query.get(id)
-    if request.method=='POST':
-        filename=f"./static/uploads/{image.image}"
-        os.remove(filename)
-        db.session.delete(image)
-        db.session.commit()
-        return redirect('/admin/teamsimage')
+    filename=f"./static/uploads/{image.image}"
+    os.remove(filename)
+    db.session.delete(image)
+    db.session.commit()
+    return redirect('/admin/teamsimage')

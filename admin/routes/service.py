@@ -30,12 +30,11 @@ def service_add():
 def service_delete(id):
     from run import db
     service=Services.query.get(id)
-    if request.method=='POST':
-        filename=f"./static/uploads/{service.image}"
-        os.remove(filename)
-        db.session.delete(service)
-        db.session.commit()
-        return redirect('/admin/service')
+    filename=f"./static/uploads/{service.image}"
+    os.remove(filename)
+    db.session.delete(service)
+    db.session.commit()
+    return redirect('/admin/service')
 
 @admin_bp.route('/service/edit/<id>', methods=['GET','POST'])
 def service_edit(id):

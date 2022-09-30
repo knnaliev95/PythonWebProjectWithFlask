@@ -25,10 +25,9 @@ def pricingoption_add():
 def pricingoption_delete(id):
     from run import db
     pricingoption=PricingOptions.query.get(id)
-    if request.method=='POST':
-        db.session.delete(pricingoption)
-        db.session.commit()
-        return redirect('/admin/pricingoption')
+    db.session.delete(pricingoption)
+    db.session.commit()
+    return redirect('/admin/pricingoption')
 
 @admin_bp.route('/pricingoption/edit/<id>', methods=['GET','POST'])
 def procongoptions_edit(id):

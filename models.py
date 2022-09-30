@@ -1,3 +1,4 @@
+from email.policy import default
 from run import db
 from flask_login import UserMixin
 
@@ -111,3 +112,5 @@ class Users(UserMixin,db.Model):
     name=db.Column(db.String(50))
     email=db.Column(db.String(50))
     password=db.Column(db.String(50))
+    is_autorized=db.Column(db.Boolean,default=False)
+    group=db.Column(db.String(50), default='user')

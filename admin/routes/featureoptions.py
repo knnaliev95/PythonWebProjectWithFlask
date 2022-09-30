@@ -25,10 +25,9 @@ def featureoptions_add():
 def featureoptions_delete(id):
     from run import db
     featureoption=FeatureOptions.query.get(id)
-    if request.method=='POST':
-        db.session.delete(featureoption)
-        db.session.commit()
-        return redirect('/admin/featureoptions')
+    db.session.delete(featureoption)
+    db.session.commit()
+    return redirect('/admin/featureoptions')
 
 @admin_bp.route('/featureoptions/edit/<id>', methods=['GET','POST'])
 def featureoptions_edit(id):

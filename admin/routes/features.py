@@ -32,12 +32,11 @@ def features_add():
 def features_delete(id):
     from run import db
     feature=Features.query.get(id)
-    if request.method=='POST':
-        file_name=f"./static/uploads/{feature.image}"
-        os.remove(file_name)
-        db.session.delete(feature)
-        db.session.commit()
-        return redirect('/admin/features')
+    file_name=f"./static/uploads/{feature.image}"
+    os.remove(file_name)
+    db.session.delete(feature)
+    db.session.commit()
+    return redirect('/admin/features')
 
 @admin_bp.route('/features/edit/<id>', methods=['GET','POST'])
 def features_edit(id):

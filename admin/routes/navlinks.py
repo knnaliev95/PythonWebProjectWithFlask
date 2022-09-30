@@ -25,10 +25,9 @@ def navlinks_add():
 def navlinks_delete(id):
     from run import db
     link=NavLinks.query.get(id)
-    if request.method=='POST':
-        db.session.delete(link)
-        db.session.commit()
-        return redirect('/admin/navlinks')
+    db.session.delete(link)
+    db.session.commit()
+    return redirect('/admin/navlinks')
 
 @admin_bp.route('/navlinks/edit/<id>', methods=['GET','POST'])
 def navlinks_edit(id):

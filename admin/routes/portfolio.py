@@ -33,12 +33,11 @@ def protfolio_add():
 def portfolio_delete(id):
     from run import db
     portfolio=Portfolio.query.get(id)
-    if request.method=='POST':
-        filename=f"./static/uploads/{portfolio.img}"
-        os.remove(filename)
-        db.session.delete(portfolio)
-        db.session.commit()
-        return redirect('/admin/portfolio')
+    filename=f"./static/uploads/{portfolio.img}"
+    os.remove(filename)
+    db.session.delete(portfolio)
+    db.session.commit()
+    return redirect('/admin/portfolio')
 
 @admin_bp.route('/portfolio/edit/<id>', methods=['GET','POST'])
 def portfolio_edit(id):

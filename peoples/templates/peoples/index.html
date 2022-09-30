@@ -396,11 +396,10 @@
     <!-- ======= Testimonials Section ///// +++ //// ======= -->
     <section id="testimonials" class="testimonials">
       <div class="container" data-aos="fade-up">
-
+        {% for testimonial in testimonials %}
         <div class="testimonials-slider swiper">
           <div class="swiper-wrapper">
-            {% for testimonial in testimonials %}
-            <div class="swiper-slide">
+            <div class="swiper-slide"> 
               <div class="testimonial-item">
                 <img src="/static/uploads/{{testimonial.image}}" class="testimonial-img" alt="">
                 <h3>{{testimonial.name}}</h3>
@@ -413,13 +412,12 @@
                   {{testimonial.info}}
                   <i class="bi bi-quote quote-icon-right"></i>
                 </p>
+                
               </div>
-            {% endfor %}
-            
             </div><!-- End testimonial item -->
           </div>
-          <div class="swiper-pagination"></div>
         </div>
+        {% endfor %}
 
       </div>
     </section><!-- End Testimonials Section -->

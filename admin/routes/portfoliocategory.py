@@ -22,10 +22,9 @@ def portfoliocategory_add():
 def portfoliocategory_delete(id):
     from run import db
     portfoliocategory=PortfolioCategory.query.get(id)
-    if request.method=='POST':
-        db.session.delete(portfoliocategory)
-        db.session.commit()
-        return redirect('/admin/portfoliocategory')
+    db.session.delete(portfoliocategory)
+    db.session.commit()
+    return redirect('/admin/portfoliocategory')
 
 @admin_bp.route('/portfoliocategory/edit/<id>', methods=['GET','POST'])
 def portfoliocategory_edit(id):

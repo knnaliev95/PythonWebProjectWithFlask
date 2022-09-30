@@ -1,4 +1,4 @@
-from flask import render_template,redirect,request
+from flask import render_template,redirect,request,url_for
 from auth import auth_bp
 from auth.forms import *
 from flask_login import login_user, logout_user, login_required, current_user
@@ -30,11 +30,14 @@ def auth_login():
     if request.method=='POST':
         user=Users.query.filter_by(email=loginform.email.data).first()
         if user:
-            if user.password==loginform.password.data:
+            if user.password==loginform.password.data and user.is_autorized==True:
                 login_user(user)
-                return redirect('/admin')
-        else:
-            return redirect('/auth/login')
+                if user.group=='admin':
+                    return redirect('/admin')
+                else:
+                    return redirect(url_for('peoples.peoples_index'))
+            else:
+                return redirect('/auth/login')
     return render_template('auth/login.html', loginform=loginform)
 
 @auth_bp.route('/logout', methods=['GET','POST'])

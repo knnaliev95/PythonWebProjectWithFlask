@@ -23,10 +23,9 @@ def pricing_add():
 def pricing_delete(id):
     from run import db
     pricing=Pricing.query.get(id)
-    if request.method=='POST':
-        db.session.delete(pricing)
-        db.session.commit()
-        return redirect('/admin/pricing')
+    db.session.delete(pricing)
+    db.session.commit()
+    return redirect('/admin/pricing')
 
 @admin_bp.route('/pricing/edit/<id>', methods=['GET','POST'])
 def pricing_edit(id):
