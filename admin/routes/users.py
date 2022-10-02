@@ -3,7 +3,7 @@ from admin.routes.imports import *
 @admin_bp.route('/users', methods=['GET','POST'])
 @login_required
 def users():
-    users=Users.query.all()
+    users=Users.query.all()[1:]
     return render_template('admin/users/index.html',users=users)
 
 @admin_bp.route('/users/edit/<id>', methods=['GET','POST'])
