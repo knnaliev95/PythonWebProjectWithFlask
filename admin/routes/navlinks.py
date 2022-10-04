@@ -40,4 +40,5 @@ def navlinks_edit(id):
         navlinks.Order=navlinksform.order.data
         navlinks.IsActive=navlinksform.isactive.data
         db.session.commit()
+        return redirect('/admin/navlinks')
     return render_template('admin/navbar/navlinksedit.html',navlinksform=navlinksform,navlinks=navlinks)

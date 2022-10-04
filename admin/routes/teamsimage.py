@@ -35,7 +35,8 @@ def teamsimage_add():
 def teamsimage_delete(id):
     from run import db
     image=TeamImages.query.get(id)
-    filename=f"./static/uploads/{image.image}"
+    name=Teams.query.filter_by(Id=image.Teamsid).first().Name
+    filename=f"./static/uploads/{name}/{image.image}"
     os.remove(filename)
     db.session.delete(image)
     db.session.commit()
