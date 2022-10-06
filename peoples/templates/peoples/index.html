@@ -396,9 +396,10 @@
     <!-- ======= Testimonials Section ///// +++ //// ======= -->
     <section id="testimonials" class="testimonials">
       <div class="container" data-aos="fade-up">
-        {% for testimonial in testimonials %}
+        
         <div class="testimonials-slider swiper">
           <div class="swiper-wrapper">
+            {% for testimonial in testimonials %}
             <div class="swiper-slide"> 
               <div class="testimonial-item">
                 <img src="/static/uploads/{{testimonial.image}}" class="testimonial-img" alt="">
@@ -415,9 +416,10 @@
                 
               </div>
             </div><!-- End testimonial item -->
+            {% endfor %}
           </div>
         </div>
-        {% endfor %}
+        
 
       </div>
     </section><!-- End Testimonials Section -->
