@@ -8,7 +8,8 @@ def navlinks():
 
 @admin_bp.route('/navlinks/add', methods=['GET','POST'])
 def navlinks_add():
-    from run import db
+    from flask import session
+    from run import db 
     navlinkForm=NavLinksForm()
     if request.method=='POST':
         navlink=NavLinks(
