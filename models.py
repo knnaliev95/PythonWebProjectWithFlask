@@ -1,6 +1,7 @@
 from email.policy import default
 from run import db
 from flask_login import UserMixin
+from run import ma
 
 class Messages(db.Model):
     Id=db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -114,3 +115,28 @@ class Users(UserMixin,db.Model):
     password=db.Column(db.String(50))
     is_autorized=db.Column(db.Boolean,default=False)
     group=db.Column(db.String(50), default='user')
+
+class Department(db.Model):
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(50))
+    section=db.relationship('Section', backref='section', lazy=True)
+
+class DepartmentSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model: Department
+        fields = ('id','name')
+        include_relationship = True
+
+class Section(db.Model):
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name=db.Column(db.String(50))
+    department_id=db.Column(db.Integer,db.ForeignKey('department.id'))
+
+class SectionSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model: Section
+        fields = ('id','name','department_id')
+        include_relationship = True
+
+
+

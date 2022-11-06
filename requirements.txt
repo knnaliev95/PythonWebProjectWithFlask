@@ -4,4 +4,5 @@ Flask-Migrate
 Jinja2
 SQLAlchemy
 Flask-WTF
-
+Flask-ckeditor
+Flask-login

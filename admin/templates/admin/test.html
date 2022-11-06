@@ -1,0 +1,56 @@
+{% extends 'admin/layout.html' %}
+{% block body %}
+    <div class="container-fluid" onload="loadDepartment()">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <form action="" method="POST">
+                      
+                     <div class="row">
+                      <div class="mb-3 col-5">
+                        {{ testform.department.label(class_='form-label') }}
+                        {{ testform.department(class_='form-select', placeholder="Department",onchange='loadDepartment()') }}
+                        
+                      </div>
+                      <div class="mb-3 col-5">
+                        {{ testform.section.label(class_='form-label') }}
+                        {{ testform.section(class_='form-select') }}
+                   </form>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const department_id = document.querySelector('#department');
+        const section_id = document.querySelector('#section');
+        department_id.innerHTML=`<option value="0">Sobe Seçin</option>`;
+        fetch("{{url_for('api.departments')}}")
+        .then(response => response.text())
+        .then(data => {
+          const department = JSON.parse(data);
+          department.forEach(department => {
+            department_id.innerHTML+=`<option value="${department.id}">${department.name}</option>`;
+            
+          });
+        })
+      
+        function loadDepartment(){
+      
+          section_id.innerHTML=`<option value="0">Bolme secin</option>`;
+         
+          fetch("{{url_for('api.sections')}}")
+          .then(response => response.text())
+          .then(data => {
+            const section = JSON.parse(data);
+            section.forEach(section => {
+              if(section.department_id==department_id.value){
+                section_id.innerHTML+=`<option value="${section.id}">${section.name}</option>`;
+              } 
+            });
+          })
+        }        
+      </script>
+{% endblock %}
